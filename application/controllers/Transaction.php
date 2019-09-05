@@ -151,7 +151,7 @@ class transaction extends CI_Controller {
 
 		$headerid = $this->input->post('id');
 
-		$exec = $this->apps_mod->GetPeminjamanDetailList($headerid);
+		$exec = $this->Apps_mod->GetPeminjamanDetailList($headerid);
 		if($exec){
 			$data['success'] = true;
 			$data['data'] =$exec->result();
