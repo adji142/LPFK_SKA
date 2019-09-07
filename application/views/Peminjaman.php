@@ -110,47 +110,27 @@
 	            </div>
             </div>
             <div class="control-group">
-              <label class="control-label">Labolatorium :</label>
-                <!-- <input type="text" class="span3" placeholder="Nomer Transaksi" id="notrans" name="notrans" readonly="" /> -->
-                <div class="control-group">
-	              <div class="controls">
-	                <select id="lab" name="lab">
-	                  <option value="">--- Select Data ---</option>
-	                  <?php
-	                  	$data_lab = $this->ModelsExecuteMaster->FindData(array('tglpasif'=>null),'masterlabolatorium');
-	                  	foreach ($data_lab->result() as $key) {
-	                  		echo "<option value = '".$key->id."'>".$key->namalab."</option>";
-	                  	}
-	                  ?>
-	                </select>
-	              </div>
-	            </div>
-            </div>
-            <div class="control-group">
               <label class="control-label">Nama Peminjam :</label>
               <div class="controls">
                 <input type="text" class="span3" placeholder="Nama Peminjam" id="nama" name="nama"/>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label">No. KTP :</label>
+              <label class="control-label">Nama Petugas :</label>
               <div class="controls">
-                <input type="text" class="span3" placeholder="No. KTP" id="ktp" name="ktp"/>
+                <input type="text" class="span3" placeholder="Nama Petugas" id="petugas" name="petugas"/>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label">Alamat :</label>
+              <label class="control-label">Tujuan Pinjam :</label>
               <div class="controls">
-                <input type="text" class="span3" placeholder="Alamat" id="alamat" name="alamat"/>
+                <input type="text" class="span3" placeholder="Tujuan Pinjam" id="tujuan" name="tujuan"/>
               </div>
             </div>
         </form>
         <div id="gridContainer">
         	
         </div>
-
-		<button id="export-btn" class="btn btn-primary">Export Data</button>
-  		<p id="export"></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -224,17 +204,16 @@
 			var notrans = $('#notrans').val();
 			var tgltrans = $('#tgltrans').val();
 			var fasyankes = $('#fasyankes').val();
-			var lab = $('#lab').val();
 			var nama = $('#nama').val();
-			var ktp = $('#ktp').val();
-			var alamat = $('#alamat').val();
+			var petugas = $('#petugas').val();
+			var tujuan = $('#tujuan').val();
 			// ===================== Insert peminjaaman header =====================
 			var row = 'header';
-			if (tgltrans != '' || fasyankes != '' || lab != '' || nama != '' || ktp != '' || alamat !='' ) {
+			if (tgltrans != '' || fasyankes != ''  || nama != '' || petugas != '' || tujuan !='' ) {
 				$.ajax({
 			      type    :'post',
 			      url     : '<?=base_url()?>Transaction/InsertPeminjamanHeaderData',
-			      data    : {notrans:notrans,tgltrans:tgltrans,fasyankes:fasyankes,lab:lab,nama:nama,ktp:ktp,alamat:alamat,row:row},
+			      data    : {notrans:notrans,tgltrans:tgltrans,fasyankes:fasyankes,nama:nama,petugas:petugas,tujuan:tujuan,row:row},
 			      dataType: 'json',
 			      success:function (response) {
 			        if(response.success == true){

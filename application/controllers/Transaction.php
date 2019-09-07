@@ -93,10 +93,9 @@ class transaction extends CI_Controller {
 		$notrans = $this->input->post('notrans');
 		$tgltrans = $this->input->post('tgltrans');
 		$fasyankes = $this->input->post('fasyankes');
-		$lab = $this->input->post('lab');
 		$nama = $this->input->post('nama');
-		$ktp = $this->input->post('ktp');
-		$alamat = $this->input->post('alamat');
+		$petugas = $this->input->post('petugas');
+		$tujuan = $this->input->post('tujuan');
 		$row = $this->input->post('row');
 		$user_id = $this->session->userdata('userid');
 		// 
@@ -105,12 +104,12 @@ class transaction extends CI_Controller {
 				'notransaksi'	 	=> $notrans,
 				'tgltransaksi'		=> $tgltrans,
 				'kodefasyankes'		=> $fasyankes,
-				'kodelabolatorium'	=> $lab,
 				'namapeminjam'		=> $nama,
-				'noktp'				=> $ktp,
-				'alamatpeminjam'	=> $alamat,
+				'namapetugas'		=> $petugas,
+				'tujuanpinjam'		=> $tujuan,
 				'createdby'			=> $user_id,
-				'createdon' 		=> date("Y-m-d H:i:s")
+				'createdon' 		=> date("Y-m-d H:i:s"),
+				'statustransaksi'	=> 0
 			);
 
 			$call = $this->ModelsExecuteMaster->ExecInsert($insert,'peminjaman');

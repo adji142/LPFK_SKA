@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => 'aistrick.com',
 	'username' => 'aistrick_root',
 	'password' => 'lagis3nt0s4',//hsp123 lagis3nt0s4
 	'database' => 'aistrick_xlpfk_solo',
