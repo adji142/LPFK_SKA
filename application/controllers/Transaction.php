@@ -32,7 +32,7 @@ class transaction extends CI_Controller {
 	{
 		$data = array('success' => true ,'message'=>array(),'data' =>array());
 
-		$call = $this->db->query("select '' Prefix,'' namamsn,0 Jumlah");
+		$call = $this->db->query("select '' Prefix,'' namamsn,0 onhand,0 Jumlah");
 
 		$data['data'] = array();
 		echo json_encode($data);
@@ -40,7 +40,7 @@ class transaction extends CI_Controller {
 
 	public function getDataMesin()
 	{
-		$data = array('success' => false ,'message'=>array(),'data' =>array());
+		$data = array('success' => false ,'message'=>array(),'data' =>array(),'onhand'=>0);
 
 		$kode = $this->input->post('kode');
 
@@ -49,6 +49,8 @@ class transaction extends CI_Controller {
 		if ($call->num_rows() > 0) {
 			$data['success'] = true;
 			$data['data'] = $call->result();
+			$stock = $this->Apps_mod->cekStock($kode)->row();
+			$data['onhand'] = $stock->Stock;
 		}
 		else{
 			$data['message'] = 'Failed Retrive data From Database';
@@ -98,7 +100,9 @@ class transaction extends CI_Controller {
 		$tujuan = $this->input->post('tujuan');
 		$row = $this->input->post('row');
 		$user_id = $this->session->userdata('userid');
+
 		// 
+		// $this->db->trans_begin();
 		if ($row == 'header') {
 			$insert = array(
 				'notransaksi'	 	=> $notrans,
@@ -124,23 +128,37 @@ class transaction extends CI_Controller {
 		else{
 			$kodemesn = $this->input->post('kodemesn');
 			$Jumlah = $this->input->post('Jumlah');
-			$insert = array(
-				'headerid'	 	=> $notrans,
-				'kodemesin'		=> $kodemesn,
-				'jumlah'		=> $Jumlah,
-				'createdby'		=> $user_id,
-				'createdon' 	=> date("Y-m-d H:i:s")
-			);
+			$onhand = $this->Apps_mod->cekStock($kodemesn)->row();
 
-			$call = $this->ModelsExecuteMaster->ExecInsert($insert,'peminjamandetail');
+			if ($Jumlah <= $onhand && $Jumlah != 0) {
 
-			if ($call) {
-				$data['success'] = true;
+				$insert = array(
+					'headerid'	 	=> $notrans,
+					'kodemesin'		=> $kodemesn,
+					'jumlah'		=> $Jumlah,
+					'createdby'		=> $user_id,
+					'createdon' 	=> date("Y-m-d H:i:s")
+				);
+
+				$call = $this->ModelsExecuteMaster->ExecInsert($insert,'peminjamandetail');
+
+				if ($call) {
+					$data['success'] = true;
+				}
+				else{
+					$data['message'] = 'Data Detail Gagal di input';
+				}
 			}
 			else{
-				$data['message'] = 'Data Detail Gagal di input';
+				$data['message'] = 'Jumlah Alat '. $kodemesn. ' Tidak Mencukupi jika di pinjam sejumlah '.$Jumlah.'. Total Tersedia : '.$onhand.' Unit';
 			}
 		}
+		// if ($errorheader AND $errordetail) {
+		// 	$this->db->trans_rollback();
+		// }
+		// else{
+		// 	$this->db->trans_commit();
+		// }
 		echo json_encode($data);
 	}
 
@@ -261,5 +279,9 @@ class transaction extends CI_Controller {
 		// 	$this->db->trans_rollback();
 		// }
 		echo json_encode($data);
+	}
+	public function ValidateStock()
+	{
+		
 	}
 }

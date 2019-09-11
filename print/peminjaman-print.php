@@ -1,6 +1,6 @@
 <?php
 //buka koneksi ke engine MySQL
-    $Open = mysqli_connect("localhost","aistrick_root","lagis3nt0s4","aistrick_xlpfk_solo");
+    $Open = mysqli_connect("localhost","root","lagis3nt0s4","xlpfk_solo");
     //mysqli_connect("localhost","root","hsp123","dealsys");
     // $Open = mysqli_connect("localhost","root","lagis3nt0s4","dealsys");
     if (!$Open){
@@ -12,7 +12,6 @@
       a.notransaksi,
       a.tgltransaksi,
       a.namapeminjam,
-      a.noktp,
       d.kodefasyankes,
       d.namafasyankes,
       d.alamat,
@@ -31,7 +30,6 @@
     a.notransaksi,
     a.tgltransaksi,
     a.namapeminjam,
-    a.noktp,
     d.kodefasyankes,
     d.namafasyankes,
     d.alamat,
@@ -40,7 +38,7 @@
     b.kodemesin,c.merk
     ";
     // var_dump($sql);
-    $result = mysqli_query($Open,$sql) or die(mysql_error());
+    $result = mysqli_query($Open,$sql);
     $row_assoc = mysqli_fetch_assoc($result);// assoc 
 
     // get value
@@ -48,10 +46,9 @@
     $notransaksi = $row_assoc['notransaksi'];
     $tgltransaksi = $row_assoc['tgltransaksi'];
     $namapeminjam = $row_assoc['namapeminjam'];
-    $noktp = $row_assoc['noktp'];
     $nama_fasyankes = $row_assoc['kodefasyankes'].' - '.$row_assoc['namafasyankes'];
     $alamat = $row_assoc['alamat'];
-    $contact = 'Email: '.$row_assoc['email'].', Phone: '.$row_assoc['nomertlf'];;
+    $contact = 'Email: '.$row_assoc['email'].'<br> Phone: '.$row_assoc['nomertlf'];;
 ?>
 <!DOCTYPE html>
 <html>
@@ -90,7 +87,7 @@
       <div class="col-xs-12">
         <h2 class="page-header">
           <i class="fa fa-globe"></i> BUKTI PEMINJAMAN ALAT KESEHATAN - NAMA INSTANSI.
-          <small class="pull-right"><?php echo date('dd-M-yyyy'); ?></small>
+          <small class="pull-right"><?php echo date('d-M-Y'); ?></small>
         </h2>
       </div>
       <!-- /.col -->
@@ -124,7 +121,7 @@
         echo "
         <b>Transaction #".$notransaksi."</b><br>
         <b>Transaction Date:</b> ".$tgltransaksi."<br>
-        <b>PIC:</b> ".$namapeminjam." - ".$noktp."<br>";
+        <b>PIC:</b> ".$namapeminjam."<br>";
 
         ?>
       </div>
@@ -148,7 +145,7 @@
           <tbody>
           <?php
           $i = 1;
-            $result_x = mysqli_query($Open,$sql) or die(mysql_error());
+            $result_x = mysqli_query($Open,$sql);
 
             while ($rsx = mysqli_fetch_array($result_x)) {
               $kodemesin = stripslashes ($rsx['kodemesin']);

@@ -30,10 +30,11 @@
 		        		<thead>
 			                <tr>
 			                  <th>#</th>
-			                  <th>Nomor Transaksi</th>
-			                  <th>Tanggal Transaksi</th>
-			                  <th>Fasyankes</th>
-			                  <th>Penanggung Jawab</th>
+			                  <th>Nomor Peminjaman</th>
+			                  <th>Tanggal Peminjaman</th>
+			                  <th>Kode  Fasyankes</th>
+			                  <th>Nama Fasyankes</th>
+			                  <th>Penanggung Jawab Alat</th>
 			                </tr>
 		              	</thead>
 		              	<tbody>
@@ -50,6 +51,7 @@
 		              						</td>
 		              						<td>".$key->notransaksi."</td>
 		              						<td>".$key->tgltransaksi."</td>
+		              						<td>".$key->kodefasyankes."</td>
 		              						<td>".$key->namafasyankes."</td>
 		              						<td>".$key->namapeminjam."</td>
 		              					</tr>
@@ -81,13 +83,13 @@
         <!-- Input from hire -->
         <form action="#" class="form-horizontal" enctype='application/json' id="SimpanPinjam">
         	<div class="control-group">
-              <label class="control-label">Nomer Transaksi :</label>
+              <label class="control-label">Nomer Peminjaman :</label>
               <div class="controls">
-                <input type="text" class="span3" placeholder="Nomer Transaksi" id="notrans" name="notrans" readonly="" />
+                <input type="text" class="span3" placeholder="Nomer Peminjaman" id="notrans" name="notrans" readonly="" />
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label">Tanggal Transaksi :</label>
+              <label class="control-label">Tanggal Peminjaman :</label>
               <div class="controls">
                 <input type="date" class="span3" placeholder="Tanggal Transaksi" id="tgltrans" name="tgltrans"/>
               </div>
@@ -128,6 +130,7 @@
               </div>
             </div>
         </form>
+        <center><h3>Isikan data Alat yang di pinjam di bawah ini</h3></center>
         <div id="gridContainer">
         	
         </div>
@@ -181,6 +184,7 @@
 ?>
 
 <script type="text/javascript">
+	var row_Validate = 0;
 	$(function () {
 		var form_mode = '';
 		var returnjson;
@@ -250,9 +254,25 @@
 		$('.kode').change(function () {
 			alert($('.kode'));
 		});
+		$('#tgltrans').change(function () {
+			validation($('#tgltrans').val(),$('#fasyankes').val(),$('#nama').val(),$('#petugas').val(),$('#tujuan').val(),row_Validate);
+		});
+		$('#fasyankes').change(function () {
+			validation($('#tgltrans').val(),$('#fasyankes').val(),$('#nama').val(),$('#petugas').val(),$('#tujuan').val(),row_Validate);
+		});
+		$('#nama').change(function () {
+			validation($('#tgltrans').val(),$('#fasyankes').val(),$('#nama').val(),$('#petugas').val(),$('#tujuan').val(),row_Validate);
+		});
+		$('#petugas').change(function () {
+			validation($('#tgltrans').val(),$('#fasyankes').val(),$('#nama').val(),$('#petugas').val(),$('#tujuan').val(),row_Validate);
+		});
+		$('#tujuan').change(function () {
+			validation($('#tgltrans').val(),$('#fasyankes').val(),$('#nama').val(),$('#petugas').val(),$('#tujuan').val(),row_Validate);
+		});
 	    $(document).ready(function () {
 	    	// var gridItems = $("#gridContainer").dxDataGrid('instance')._controllers.data._dataSource._items;
-	    	// console.log(gridItems);
+	    	// console.log($('#tgltrans').val());
+	    	validation($('#tgltrans').val(),$('#fasyankes').val(),$('#nama').val(),$('#petugas').val(),$('#tujuan').val(),row_Validate);
 	    	form_mode = 'add';
 	    	// ============================================= GENERATE NUMBER ===================================
 	    	var table = 'peminjaman';
@@ -347,6 +367,9 @@
 	            mode: "row",
 	            allowUpdating: true,
 	            allowDeleting: true,
+	            texts: {  
+	                confirmDeleteMessage: ''  
+	            },
 	            allowAdding: true
 	        }, 
 	        columns: [
@@ -356,8 +379,14 @@
 	            },
 	            {
 	                dataField: "namamsn",
-	                caption: "Nama Mesin"
-	            }, 
+	                caption: "Nama Mesin",
+	                allowEditing:false
+	            },
+	            {
+	                dataField: "onhand",
+	                caption: "Tersedia",
+	                allowEditing:false
+	            },
 	            {
 	                dataField: "Jumlah",
 	                caption: "Jumlah Mesin"
@@ -374,22 +403,45 @@
 	        },
 	        onRowInserted: function(e) {
 	            // logEvent("RowInserted");
+	            // alert('');
+	            // console.log(e.data.onhand);
+	            // var index = e.row.rowIndex;
+	            if (e.data.onhand >= e.data.Jumlah && e.data.Jumlah > 0) {
+	            	row_Validate += 1;
+	            	validation($('#tgltrans').val(),$('#fasyankes').val(),$('#nama').val(),$('#petugas').val(),$('#tujuan').val(),row_Validate);
+	            }
+	            else{
+	            	$('#basicExampleModal').modal('toggle');
+		        	Swal.fire({
+		              type: 'error',
+		              title: 'Woops...',
+		              text: 'Jumlah Tersedia Lebih kecil dari jumlah yang di pinjam',
+		              // footer: '<a href>Why do I have this issue?</a>'
+		            }).then((result)=>{
+		              $('#basicExampleModal').modal('show');
+		              row_Validate = 0;
+	            		validation($('#tgltrans').val(),$('#fasyankes').val(),$('#nama').val(),$('#petugas').val(),$('#tujuan').val(),row_Validate);
+		            });
+	            }
 	        },
 	        onRowUpdating: function(e) {
 	            // logEvent("RowUpdating");
-	            alert('RowUpdating');
+	            
 	        },
 	        onRowUpdated: function(e) {
 	            // logEvent(e);
 	        },
 	        onRowRemoving: function(e) {
-	            // logEvent("RowRemoving");
 	        },
 	        onRowRemoved: function(e) {
-	            // logEvent("RowRemoved");
+	        	// console.log(e);
+	        	var grid = $("#gridContainer").dxDataGrid("instance");
+	        	console.log(grid);
+	            // row_Validate = row_Validate - 1;
+	            // validation($('#tgltrans').val(),$('#fasyankes').val(),$('#nama').val(),$('#petugas').val(),$('#tujuan').val(),row_Validate);
 	        },
 			onEditorPrepared: function (e) {
-				console.log(e);
+				// console.log(e);
 				if (e.dataField == "Prefix") {
 					$(e.editorElement).dxTextBox("instance").on("valueChanged", function (args) {                           
 						var grid = $("#gridContainer").dxDataGrid("instance");
@@ -408,6 +460,9 @@
 						   			grid.cellValue(index, "Prefix", v.kode_alat);
 									grid.cellValue(index, "namamsn", v.nama_alat);
 						        });
+						        grid.cellValue(index, "onhand", response.onhand);
+						        grid.cellValue(index, "Jumlah", 0);
+						        console.log(grid);
 					        }
 					        else{
 					        	$('#basicExampleModal').modal('toggle');
@@ -426,6 +481,9 @@
 				}
 			}
 	    });
+
+	    // add dx-toolbar-after
+	    // $('.dx-toolbar-after').append('Tambah Alat untuk di pinjam ');
 	}
 	function inputDetail(notrans,data) {
 		if (data != '[]') {
@@ -475,6 +533,14 @@
             }).then((result)=>{
               $('#basicExampleModal').modal('show');
             });
+		}
+	}
+	function validation(tglpinjam,fasyankes,peminjam,petugas,tujuan,rowvalidate) {
+		if (tglpinjam == '' || fasyankes == '' || peminjam == '' || petugas == '' || tujuan == '' || rowvalidate == 0) {
+			$('#Save_Btn').attr('disabled',true);
+		}
+		else{
+			$('#Save_Btn').attr('disabled',false);	
 		}
 	}
 </script>

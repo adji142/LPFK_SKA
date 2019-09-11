@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'aistrick.com',
-	'username' => 'aistrick_root',
+	'hostname' => 'localhost',//aistrick.com
+	'username' => 'root',//aistrick_root
 	'password' => 'lagis3nt0s4',//hsp123 lagis3nt0s4
-	'database' => 'aistrick_xlpfk_solo',
+	'database' => 'xlpfk_solo',//aistrick_xlpfk_solo
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
