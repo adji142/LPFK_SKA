@@ -17,9 +17,6 @@
     			<div class="widget-title"> 
     				<span class="icon">
     					<i class="">
-    						<button type="button" class="btn btn-mini btn-info" data-toggle="modal" data-target="#basicExampleModal" id="add_btn">
-							  Peminjaman Alat
-							</button>
     					</i>
     				</span>
 		            <h5>Data table</h5>
@@ -110,38 +107,21 @@
 	            </div>
             </div>
             <div class="control-group">
-              <label class="control-label">Labolatorium :</label>
-                <!-- <input type="text" class="span3" placeholder="Nomer Transaksi" id="notrans" name="notrans" readonly="" /> -->
-                <div class="control-group">
-	              <div class="controls">
-	                <select id="lab" name="lab" disabled="">
-	                  <option value="">--- Select Data ---</option>
-	                  <?php
-	                  	$data_lab = $this->ModelsExecuteMaster->FindData(array('tglpasif'=>null),'masterlabolatorium');
-	                  	foreach ($data_lab->result() as $key) {
-	                  		echo "<option value = '".$key->id."'>".$key->namalab."</option>";
-	                  	}
-	                  ?>
-	                </select>
-	              </div>
-	            </div>
-            </div>
-            <div class="control-group">
               <label class="control-label">Nama Peminjam :</label>
               <div class="controls">
                 <input type="text" class="span3" placeholder="Nama Peminjam" id="nama" name="nama" readonly="" />
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label">No. KTP :</label>
+              <label class="control-label">Nama Petugas :</label>
               <div class="controls">
-                <input type="text" class="span3" placeholder="No. KTP" id="ktp" name="ktp" readonly="" />
+                <input type="text" class="span3" placeholder="Nama Petugas" id="petugas" name="petugas" readonly=""/>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label">Alamat :</label>
+              <label class="control-label">Tujuan Pinjam :</label>
               <div class="controls">
-                <input type="text" class="span3" placeholder="Alamat" id="alamat" name="alamat" readonly="" />
+                <input type="text" class="span3" placeholder="Tujuan Pinjam" id="tujuan" name="tujuan" readonly=""/>
               </div>
             </div>
         </form>
@@ -221,6 +201,7 @@
 ?>
 
 <script type="text/javascript">
+	var row_Validate = 0;
 	$(function () {
 		var form_mode = '';
 		var returnjson;
@@ -292,6 +273,7 @@
 	    $(document).ready(function () {
 	    	// var gridItems = $("#gridContainer").dxDataGrid('instance')._controllers.data._dataSource._items;
 	    	// console.log(gridItems);
+	    	validation($('#tgltranskmbali').val(),$('#namapenerima').val(),row_Validate);
 	    	form_mode = 'add';
 	    	// ============================================= GENERATE NUMBER ===================================
 	    	var table = 'pengembalian';
@@ -358,22 +340,23 @@
 	        },
 	        editing: {
 	            mode: "row",
-	            allowUpdating: true,
-	            allowDeleting: true,
-	            allowAdding: true
+	            allowUpdating: true
 	        }, 
 	        columns: [
 	            {
 	                dataField: "kodemesin",
-	                caption: "Kode Mesin"
+	                caption: "Kode Mesin",
+	                allowEditing:false
 	            },
 	            {
 	                dataField: "nama_alat",
-	                caption: "Nama Mesin"
+	                caption: "Nama Mesin",
+	                allowEditing:false
 	            }, 
 	            {
 	                dataField: "jumlah",
-	                caption: "Jumlah Pinjam"
+	                caption: "Jumlah Pinjam",
+	                allowEditing:false
 	            },
 	            {
 	                dataField: "jumlahkembali",
@@ -394,10 +377,28 @@
 	        },
 	        onRowUpdating: function(e) {
 	            // logEvent("RowUpdating");
-	            alert('RowUpdating');
+	            // alert('RowUpdating');
 	        },
 	        onRowUpdated: function(e) {
 	            // logEvent(e);
+
+	            if (e.data.jumlahkembali > e.data.jumlah) {
+	            	$('#basicExampleModal').modal('toggle');
+	            	Swal.fire({
+		              type: 'error',
+		              title: 'Woops...',
+		              text: 'Qty Kembali tidak bisa melebihi Qty Pinjam',
+		              // footer: '<a href>Why do I have this issue?</a>'
+		            }).then((result)=>{
+		              $('#basicExampleModal').modal('show');
+		              row_Validate = 0;
+		              validation($('#tgltranskmbali').val(),$('#namapenerima').val(),row_Validate);
+		            });
+	            }
+	            else{
+	            	row_Validate = 1;
+	            	validation($('#tgltranskmbali').val(),$('#namapenerima').val(),row_Validate);
+	            }
 	        },
 	        onRowRemoving: function(e) {
 	            // logEvent("RowRemoving");
@@ -481,10 +482,9 @@
 	            $('#notrans').val(v.notransaksi);
 				$('#tgltrans').val(v.tgltransaksi);
 				$('#fasyankes').val(v.kodefasyankes).change();
-				$('#lab').val(v.kodelabolatorium).change();
 				$('#nama').val(v.namapeminjam);
-				$('#ktp').val(v.noktp);
-				$('#alamat').val(v.alamatpeminjam);
+				$('#petugas').val(v.namapetugas);
+				$('#tujuan').val(v.tujuanpinjam);
 	          });
 	        }
 	        else{
@@ -499,5 +499,13 @@
 	        }
 	      }
 	    });
+	}
+	function validation(tglpinjam,petugas,rowvalidate) {
+		if (tglpinjam == '' || petugas == '' || rowvalidate == 0) {
+			$('#Save_Btn').attr('disabled',true);
+		}
+		else{
+			$('#Save_Btn').attr('disabled',false);	
+		}
 	}
 </script>
