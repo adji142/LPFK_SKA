@@ -14,47 +14,49 @@
     <div class="row-fluid">
     	<div class="span12">
     		<div class="widget-box">
-    			<div class="widget-title"> 
-    				<span class="icon">
-    					<i class="">
-    					</i>
-    				</span>
-		            <h5>Data table</h5>
+    			<div class="widget-title">
+		            <ul class="nav nav-tabs">
+		              <li class="active"><a data-toggle="tab" href="#tab1">Transaksi</a></li>
+		              <li><a data-toggle="tab" href="#tab2">List Pengembalian</a></li>
+		            </ul>
 		        </div>
-		        <div class="widget-content">
-
-		        	<table class="table table-bordered data-table">
-		        		<thead>
-			                <tr>
-			                  <th>#</th>
-			                  <th>Nomor Transaksi</th>
-			                  <th>Tanggal Transaksi</th>
-			                  <th>Fasyankes</th>
-			                  <th>Penanggung Jawab</th>
-			                </tr>
-		              	</thead>
-		              	<tbody>
-		              		<?php
-		              			$datapinjam = $this->apps_mod->GetPeminjamanList();
-		              			foreach ($datapinjam->result() as $key) {
-		              				echo "
-		              					<tr>
-		              						<td style='white-space: nowrap;'>
-		              							<center>
-			              							<button class = 'btn btn-mini btn-info tip-top back' data-original-title='Kembalikan Alat' id = '".$key->notransaksi."'  data-toggle='modal' data-target='#basicExampleModal'><span class = 'icon icon-eye-open'></span></button>
-			              							<button class = 'btn btn-mini btn-warning tip-top cetak' data-original-title='Cetak Bukti' id = '".$key->notransaksi."'><span class = 'icon icon-print'></span></button>
-		              							</center>
-		              						</td>
-		              						<td>".$key->notransaksi."</td>
-		              						<td>".$key->tgltransaksi."</td>
-		              						<td>".$key->namafasyankes."</td>
-		              						<td>".$key->namapeminjam."</td>
-		              					</tr>
-		              				";
-		              			}
-		              		?>
-		              	</tbody>
-		        	</table>
+		        <div class="widget-content tab-content">
+		        	<div id="tab1" class="tab-pane active">
+			        	<table class="table table-bordered data-table">
+			        		<thead>
+				                <tr>
+				                  <th>#</th>
+				                  <th>Nomor Transaksi</th>
+				                  <th>Tanggal Transaksi</th>
+				                  <th>Fasyankes</th>
+				                  <th>Penanggung Jawab</th>
+				                </tr>
+			              	</thead>
+			              	<tbody>
+			              		<?php
+			              			$datapinjam = $this->apps_mod->GetPeminjamanList();
+			              			foreach ($datapinjam->result() as $key) {
+			              				echo "
+			              					<tr>
+			              						<td style='white-space: nowrap;'>
+			              							<center>
+				              							<button class = 'btn btn-mini btn-info tip-top back' data-original-title='Kembalikan Alat' id = '".$key->notransaksi."'  data-toggle='modal' data-target='#basicExampleModal'><span class = 'icon icon-repeat'></span></button>
+			              							</center>
+			              						</td>
+			              						<td>".$key->notransaksi."</td>
+			              						<td>".$key->tgltransaksi."</td>
+			              						<td>".$key->namafasyankes."</td>
+			              						<td>".$key->namapeminjam."</td>
+			              					</tr>
+			              				";
+			              			}
+			              		?>
+			              	</tbody>
+			        	</table>
+			        </div>
+			        <div id="tab2" class="tab-pane">
+			        	tab2
+			        </div>
 		        </div>
     		</div>
     	</div>

@@ -280,8 +280,22 @@ class transaction extends CI_Controller {
 		// }
 		echo json_encode($data);
 	}
-	public function ValidateStock()
+	public function ValidateTransaction()
 	{
-		
+		$notr = $this->input->post('notransaksi');
+		$list = $this->Apps_mod->GetPeminjamanDetailList($notr)->result();
+
+		$status = 0;
+		foreach ($list as $key) {
+			if ($key->jumlah - $key->jumlahkembali == 0) {
+				$status = 1;
+			}
+			else{
+				$status = 0;
+			}
+		}
+		if ($status == 0) {
+			
+		}
 	}
 }
