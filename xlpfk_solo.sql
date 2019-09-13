@@ -11,7 +11,7 @@
  Target Server Version : 50552
  File Encoding         : 65001
 
- Date: 11/09/2019 23:33:04
+ Date: 13/09/2019 21:40:37
 */
 
 SET NAMES utf8mb4;
@@ -108,8 +108,8 @@ CREATE TABLE `peminjaman`  (
 -- ----------------------------
 -- Records of peminjaman
 -- ----------------------------
-INSERT INTO `peminjaman` VALUES (1, '1201980001', '2019-09-11', 1, 'Prasetyo Aji Wibowo', 'ALI', 'Surakarta - Kota', 37, '2019-09-11 18:18:18', 0);
-INSERT INTO `peminjaman` VALUES (2, '1201980002', '2019-09-11', 1, 'Prasetyo Aji Wibowo', 'AJJ', 'Surakarta - Kota', 37, '2019-09-11 18:20:19', 0);
+INSERT INTO `peminjaman` VALUES (1, '1201980001', '2019-09-11', 1, 'Prasetyo Aji Wibowo', 'ALI', 'Surakarta - Kota', 37, '2019-09-11 18:18:18', 1);
+INSERT INTO `peminjaman` VALUES (2, '1201980002', '2019-09-11', 1, 'Prasetyo Aji Wibowo', 'AJJ', 'Surakarta - Kota', 37, '2019-09-11 18:20:19', 1);
 INSERT INTO `peminjaman` VALUES (3, '1201980003', '2019-09-11', 1, 'Prasetyo Aji Wibowo', 'aji', 'Surakarta - Kota', 37, '2019-09-11 18:22:06', 0);
 
 -- ----------------------------
@@ -149,7 +149,14 @@ CREATE TABLE `pengembalian`  (
   `createdon` datetime NULL DEFAULT NULL,
   `createdby` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of pengembalian
+-- ----------------------------
+INSERT INTO `pengembalian` VALUES (1, '2201980001', '2019-09-13', '1201980001', 'A', '2019-09-13 13:49:56', '37');
+INSERT INTO `pengembalian` VALUES (2, '2201980002', '2019-09-13', '1201980001', 'AL', '2019-09-13 13:50:34', '37');
+INSERT INTO `pengembalian` VALUES (3, '2201980003', '2019-09-13', '1201980002', 'KK', '2019-09-13 13:59:40', '37');
 
 -- ----------------------------
 -- Table structure for pengembaliandetail
@@ -163,7 +170,15 @@ CREATE TABLE `pengembaliandetail`  (
   `createdon` datetime NULL DEFAULT NULL,
   `createdby` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of pengembaliandetail
+-- ----------------------------
+INSERT INTO `pengembaliandetail` VALUES (1, '2201980001', 'AL001', 0, '2019-09-13 13:49:56', '37');
+INSERT INTO `pengembaliandetail` VALUES (2, '2201980001', 'AL003', 1, '2019-09-13 13:49:56', '37');
+INSERT INTO `pengembaliandetail` VALUES (3, '2201980002', 'AL001', 2, '2019-09-13 13:50:34', '37');
+INSERT INTO `pengembaliandetail` VALUES (4, '2201980003', 'AL003', 1, '2019-09-13 13:59:41', '37');
 
 -- ----------------------------
 -- Table structure for permission

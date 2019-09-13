@@ -55,7 +55,44 @@
 			        	</table>
 			        </div>
 			        <div id="tab2" class="tab-pane">
-			        	tab2
+			        	<table class="table table-bordered data-table">
+			        		<thead>
+				                <tr>
+				                  <th>#</th>
+				                  <th>Nomor Pengembalian</th>
+				                  <th>Tanggal Pengembalian</th>
+				                  <th>Penerima Barang</th>
+				                  <th>Kode Fasyankes Peminjam</th>
+				                  <th>Nama Fasyankes Peminjam</th>
+				                  <th>Penanggung Jawab</th>
+				                </tr>
+			              	</thead>
+			              	<tbody>
+			              		<?php
+			              			$datapinjam = $this->apps_mod->GetPengembalianlist();
+			              			foreach ($datapinjam->result() as $key) {
+			              				echo "
+			              					<tr>
+			              						<td style='white-space: nowrap;'>
+			              							<center>
+				              							<button class = 'btn btn-mini btn-info tip-top detail' data-original-title='Lihat Detail' id = '".$key->notransaksi."'  data-toggle='modal' data-target='#basicExampleModal'><span class = 'icon icon-eye-open'></span>
+				              							</button>
+				              							<button class = 'btn btn-mini btn-danger tip-top print' data-original-title='Cetak Bukti' id = '".$key->notransaksi."'  data-toggle='modal' data-target='#basicExampleModal'><span class = 'icon icon-print'></span>
+				              							</button>
+			              							</center>
+			              						</td>
+			              						<td>".$key->notransaksi."</td>
+			              						<td>".$key->tgltransaksi."</td>
+			              						<td>".$key->penerimabarang."</td>
+			              						<td>".$key->kodefasyankes."</td>
+			              						<td>".$key->namafasyankes."</td>
+			              						<td>".$key->namapeminjam."</td>
+			              					</tr>
+			              				";
+			              			}
+			              		?>
+			              	</tbody>
+			        	</table>
 			        </div>
 		        </div>
     		</div>
@@ -239,7 +276,7 @@
 			      dataType: 'json',
 			      success:function (response) {
 			        if(response.success == true){
-			        	inputDetail(notranskembali,gridItems);
+			        	inputDetail(notranskembali,notrans,gridItems);
 			        }
 			        else{
 			        	$('#basicExampleModal').modal('toggle');
@@ -272,11 +309,18 @@
 		$('.kode').change(function () {
 			alert($('.kode'));
 		});
+		$('#tgltranskmbali').change(function () {
+			validation($('#tgltranskmbali').val(),$('#namapenerima').val(),row_Validate);
+		});
+		$('#namapenerima').change(function () {
+			validation($('#tgltranskmbali').val(),$('#namapenerima').val(),row_Validate);
+		});
 	    $(document).ready(function () {
 	    	// var gridItems = $("#gridContainer").dxDataGrid('instance')._controllers.data._dataSource._items;
 	    	// console.log(gridItems);
 	    	validation($('#tgltranskmbali').val(),$('#namapenerima').val(),row_Validate);
 	    	form_mode = 'add';
+	    	var clear = 0;
 	    	// ============================================= GENERATE NUMBER ===================================
 	    	var table = 'pengembalian';
 	    	var field = 'notransaksi';
@@ -288,6 +332,8 @@
 		      dataType: 'json',
 		      success:function (response) {
 		        if(response.success == true){
+		        	clear = 1;
+		        	console.log(clear);
 		        	var str = "" + response.prefix;
 					var pad = "0000";
 					var ans = pad.substring(0, pad.length - str.length) + str;
@@ -300,6 +346,7 @@
 		        }
 		      }
 		    });
+		    console.log(clear);
 	    });
 
 	    $('.back').click(function () {
@@ -420,9 +467,10 @@
 			}
 	    });
 	}
-	function inputDetail(notranskembali,data) {
+	function inputDetail(notranskembali,notransaksi,data) {
 		if (data != '[]') {
 			var row = 'detail';
+			var clear = 0;
 			$.each(data,function (k,v) {
 				var kodemesn = v.kodemesin;
 				var Jumlahpinjam = v.jumlah;
@@ -434,31 +482,18 @@
 			      data    : {kodemesn:kodemesn,Jumlahpinjam:Jumlahpinjam,Jumlahkembali:Jumlahkembali,row:row,notranskembali:notranskembali},
 			      dataType: 'json',
 			      success:function (response) {
+			      	console.log(response.success);
 			        if(response.success == true){
-			        	$('#basicExampleModal').modal('toggle');
-				        	Swal.fire({
-				              type: 'success',
-				              title: 'Horray...',
-				              text: 'Data Berhasil Di Tambahkan',
-				              // footer: '<a href>Why do I have this issue?</a>'
-				            }).then((result)=>{
-				              location.reload();
-				            });
+			        	clear += 1;
 			        }
 			        else{
-			        	$('#basicExampleModal').modal('toggle');
-			        	Swal.fire({
-			              type: 'error',
-			              title: 'Woops...',
-			              text: response.message,
-			              // footer: '<a href>Why do I have this issue?</a>'
-			            }).then((result)=>{
-			              $('#basicExampleModal').modal('show');
-			            });
+			        	clear = 0;
 			        }
 			      }
 			    });
+			    console.log(clear);
 			});
+			validation_pengembalian(notransaksi);
 		}
 		else{
 			$('#basicExampleModal').modal('toggle');
@@ -497,6 +532,62 @@
 	              // footer: '<a href>Why do I have this issue?</a>'
 	            }).then((result)=>{
 	              location.reload();
+	            });
+	        }
+	      }
+	    });
+	}
+	function validation_pengembalian(notransaksi) {
+		$.ajax({
+	      type    :'post',
+	      url     : '<?=base_url()?>Transaction/ValidateTransaction',
+	      data    : {notransaksi,notransaksi},
+	      dataType: 'json',
+	      success:function (response) {
+	      	console.log(response);
+	        if(response.success == true){
+	        	$('#basicExampleModal').modal('toggle');
+	        	Swal.fire({
+	              type: 'success',
+	              title: 'Horray...',
+	              text: 'Data Berhasil di simpan',
+	              // footer: '<a href>Why do I have this issue?</a>'
+	            }).then((result)=>{
+	              location.reload();
+	              
+	            });
+	        }
+	        else{
+	        	$('#basicExampleModal').modal('toggle');
+	            Swal.fire({
+	              type: 'error',
+	              title: 'Woops...',
+	              text: response.message,
+	              // footer: '<a href>Why do I have this issue?</a>'
+	            }).then((result)=>{
+	              location.reload();
+	            });
+	        }
+	      }
+	    });
+	}
+	function deletetrx(notransaksi) {
+		$.ajax({
+	      type    :'post',
+	      url     : '<?=base_url()?>Transaction/clearline',
+	      data    : {notransaksi,notransaksi},
+	      dataType: 'json',
+	      success:function (response) {
+	        if(response.success == true){
+	        	
+	        }
+	        else{
+	        	$('#basicExampleModal').modal('toggle');
+	            Swal.fire({
+	              type: 'error',
+	              title: 'Woops...',
+	              text: 'error clearing data',
+	              // footer: '<a href>Why do I have this issue?</a>'
 	            });
 	        }
 	      }

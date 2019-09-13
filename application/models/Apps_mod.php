@@ -16,20 +16,45 @@ class Apps_mod extends CI_Model
     	";
     	return $this->db->query($sql);
     }
-
+    public function GetPengembalianlist()
+    {
+        $sql = "
+            SELECT 
+                a.notransaksi,a.tgltransaksi,a.penerimabarang,
+                c.kodefasyankes,c.namafasyankes,b.namapeminjam
+            FROM pengembalian a
+            LEFT JOIN peminjaman b on a.nopinjam = b.notransaksi
+            LEFT JOIN masterfasyankes c on b.kodefasyankes = c.id
+        ";
+        return $this->db->query($sql);
+    }
     public function GetPeminjamanDetailList($headerid)
     {
     	$sql = "
-    		SELECT a.*, b.nama_alat,COALESCE(c.jumlahkembali,0) jumlahkembali FROM peminjamandetail a
+    		SELECT a.*,a.jumlah - COALESCE(c.jumlahkembali,0) jumlah,b.nama_alat,0 jumlahkembali FROM peminjamandetail a
             LEFT JOIN masteralat b on a.kodemesin = b.kode_alat
             LEFT JOIN(
                 SELECT a.nopinjam,b.kodealat,SUM(b.jumlahkembali) jumlahkembali FROM pengembalian a
                 LEFT JOIN pengembaliandetail b on a.notransaksi = b.headerid
                 GROUP BY a.nopinjam,b.kodealat
             )c on a.headerid = c.nopinjam AND a.kodemesin = c.kodealat
-			WHERE a.headerid = '$headerid'
+			WHERE a.headerid = '$headerid' AND a.jumlah - COALESCE(c.jumlahkembali,0) >0
     	";
     	return $this->db->query($sql);
+    }
+    public function GetPeminjamanDetailList_forvalidation($headerid)
+    {
+        $sql = "
+            SELECT a.*,a.jumlah - COALESCE(c.jumlahkembali,0) jumlah,b.nama_alat,0 jumlahkembali FROM peminjamandetail a
+            LEFT JOIN masteralat b on a.kodemesin = b.kode_alat
+            LEFT JOIN(
+                SELECT a.nopinjam,b.kodealat,SUM(b.jumlahkembali) jumlahkembali FROM pengembalian a
+                LEFT JOIN pengembaliandetail b on a.notransaksi = b.headerid
+                GROUP BY a.nopinjam,b.kodealat
+            )c on a.headerid = c.nopinjam AND a.kodemesin = c.kodealat
+            WHERE a.headerid = '$headerid' ORDER BY a.jumlah - COALESCE(c.jumlahkembali,0)
+        ";
+        return $this->db->query($sql);
     }
     public function cekStock($itemcode)
     {

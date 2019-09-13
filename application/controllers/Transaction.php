@@ -197,7 +197,13 @@ class transaction extends CI_Controller {
 	// ================================================ Peminjaman ================================================
 
 	// =============================================== Pengembalian================================================
-
+	public function clearline()
+	{
+		$data = array('success' => true ,'message'=>array(),'id' =>'');
+		$notranskembali = $this->input->post('notransaksi');
+		$this->db->delete('pengembaliandetail',array('headerid'=>$notranskembali));
+		echo json_encode($data);
+	}
 	public function InsertPengembalianHeaderData()
 	{
 		$data = array('success' => false ,'message'=>array(),'id' =>'');
@@ -247,6 +253,7 @@ class transaction extends CI_Controller {
 					$data['message'] = 'Jumlah Kembali Tidak Boleh lebih dari jumlah Peminjaman';
 				}
 				else{
+
 					$insert = array(
 						'headerid'	 	=> $notranskembali,
 						'kodealat'		=> $kodemesn,
@@ -282,20 +289,34 @@ class transaction extends CI_Controller {
 	}
 	public function ValidateTransaction()
 	{
+		$data = array('success' => false ,'message'=>array(),'id' =>'');
 		$notr = $this->input->post('notransaksi');
-		$list = $this->Apps_mod->GetPeminjamanDetailList($notr)->result();
+		$list = $this->Apps_mod->GetPeminjamanDetailList_forvalidation($notr)->result();
 
 		$status = 0;
 		foreach ($list as $key) {
-			if ($key->jumlah - $key->jumlahkembali == 0) {
+			if ($key->jumlah == 0) {
 				$status = 1;
 			}
 			else{
 				$status = 0;
 			}
 		}
-		if ($status == 0) {
-			
+		if ($status == 1) {
+			$data_update = array('statustransaksi' => 1);
+			$update = $this->ModelsExecuteMaster->ExecUpdate($data_update,array('notransaksi'=>$notr),'peminjaman');
+
+			if ($update) {
+				$data['success'] = true;
+			}
+			else{
+				$data['message'] = 'Gagal Melakukan Updadte, Hubungi Administrator';
+			}
 		}
+		else{
+			$data['success'] = true;
+			// $data['message'] = 'TRANSAKSI BERASIL, Sistem Mendeteksi ada alat yang belum di kembalikan';
+		}
+		echo json_encode($data);
 	}
 }
