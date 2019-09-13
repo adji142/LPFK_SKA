@@ -1,6 +1,7 @@
 <?php
 //buka koneksi ke engine MySQL
-    $Open = mysqli_connect("localhost","root","lagis3nt0s4","xlpfk_solo");
+    // $Open = mysqli_connect("localhost","root","lagis3nt0s4","xlpfk_solo");
+    $Open = mysqli_connect("localhost","aistrick_root","lagis3nt0s4","aistrick_xlpfk_solo");
     //mysqli_connect("localhost","root","hsp123","dealsys");
     // $Open = mysqli_connect("localhost","root","lagis3nt0s4","dealsys");
     if (!$Open){
