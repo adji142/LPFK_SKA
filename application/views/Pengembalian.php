@@ -215,8 +215,8 @@
         	<thead>
               <tr>
               	<th>#</th>
-                <th>Kode Mesin</th>
-                <th>Nama Mesin</th>
+                <th>Kode Analizer</th>
+                <th>Nama Analizer</th>
                 <th>Jumlah Pinjam</th>
                 <th>Jumlah Kembali</th>
               </tr>
@@ -424,12 +424,12 @@
 	        columns: [
 	            {
 	                dataField: "kodemesin",
-	                caption: "Kode Mesin",
+	                caption: "Kode Analizer",
 	                allowEditing:false
 	            },
 	            {
 	                dataField: "nama_alat",
-	                caption: "Nama Mesin",
+	                caption: "Nama Analizer",
 	                allowEditing:false
 	            }, 
 	            {

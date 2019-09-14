@@ -29,8 +29,8 @@
 		        	<table class="table table-bordered data-table">
 		        		<thead>
 			                <tr>
-			                  <th>Kode Measin</th>
-			                  <th>Nama Mesin</th>
+			                  <th>Kode Analizer</th>
+			                  <th>Nama Analizer</th>
 			                  <th>SN</th>
 			                  <th>Merek</th>
 			                  <th>Model</th>

@@ -84,7 +84,7 @@ class Apps_mod extends CI_Model
                     GROUP BY x.kodemesin
                 ) b on a.kode_alat = b.kodemesin
         LEFT JOIN (
-                    SELECT X.kodealat,SUM(x.jumlahkembali) jumlahkembali FROM pengembaliandetail X
+                    SELECT X.kodealat,SUM(x.jumlahkembali) jumlahkembali FROM pengembaliandetail x
                     GROUP BY X.kodealat
                 ) c on a.kode_alat = c.kodealat
         WHERE a.kode_alat = '$itemcode'";

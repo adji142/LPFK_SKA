@@ -159,8 +159,8 @@
         	<thead>
               <tr>
               	<th>#</th>
-                <th>Kode Mesin</th>
-                <th>Nama Mesin</th>
+                <th>Kode Analizer</th>
+                <th>Nama Analizer</th>
                 <th>Jumlah Pinjam</th>
                 <th>Jumlah Kembali</th>
               </tr>
@@ -375,11 +375,11 @@
 	        columns: [
 	            {
 	                dataField: "Prefix",
-	                caption: "Kode Mesin"
+	                caption: "Kode Analizer"
 	            },
 	            {
 	                dataField: "namamsn",
-	                caption: "Nama Mesin",
+	                caption: "Nama Analizer",
 	                allowEditing:false
 	            },
 	            {
@@ -389,7 +389,7 @@
 	            },
 	            {
 	                dataField: "Jumlah",
-	                caption: "Jumlah Mesin"
+	                caption: "Jumlah Analizer"
 	            },
 	        ],
 	        onEditingStart: function(e) {
