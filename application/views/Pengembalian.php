@@ -75,7 +75,7 @@
 			              					<tr>
 			              						<td style='white-space: nowrap;'>
 			              							<center>
-				              							<button class = 'btn btn-mini btn-info tip-top detail' data-original-title='Lihat Detail' id = '".$key->notransaksi."'  data-toggle='modal' data-target='#basicExampleModal'><span class = 'icon icon-eye-open'></span>
+				              							<button class = 'btn btn-mini btn-info tip-top detail' data-original-title='Lihat Detail' id = '".$key->trx."'  data-toggle='modal'><span class = 'icon icon-eye-open'></span>
 				              							</button>
 				              							<button class = 'btn btn-mini btn-danger tip-top print' data-original-title='Cetak Bukti' id = '".$key->notransaksi."'  data-toggle='modal' data-target='#basicExampleModal'><span class = 'icon icon-print'></span>
 				              							</button>
@@ -228,7 +228,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <!-- <button type="button" class="btn btn-primary" id="Save_Btn">Save changes</button> -->
       </div>
     </div>
   </div>
@@ -366,10 +365,41 @@
 		      }
 		    });
 	    });
+	    
+	    $('.detail').click(function () {
+	    	var id = $(this).attr("id");
+			$.ajax({
+		      type    :'post',
+		      url     : '<?=base_url()?>Transaction/FIndPengembalianDetail',
+		      data    : {id,id},
+		      dataType: 'json',
+		      success:function (response) {
+		        if(response.success == true){
+		        	var html = '';
+			        var i;
+			        var j = 1;
+			        for (i = 0; i < response.data.length; i++) {
+			          html += '<tr>' +
+			                  '<td>' + j+'</td>' +
+			                  '<td>' + response.data[i].kodemesin + '</td>' +
+			                  '<td>' + response.data[i].nama_alat + '</td>' +
+			                  '<td>' + response.data[i].jumlah + '</td>' +
+			                  '<td>' + response.data[i].jumlahkembali + '</td>' +
+			                  '<tr>';
+			           j++;
+			        }
+			        $('#load_data').html(html);
+		        }
+		        $('#ModalDetail').modal('show');
+		      }
+		    });
+	    });
 
-	  	$('.cetak').click(function () {
+	  	$('.print').click(function () {
 	  		var id = $(this).attr("id");
-			window.open('<?php echo base_url(); ?>print/peminjaman-print.php?id='+id,'_blank');
+			window.open('<?php echo base_url(); ?>print/pengembalian-print.php?id='+id,'_blank');
+			location.reload();
+
 	  	});
 	});
 	function reset() {
@@ -493,7 +523,7 @@
 			    });
 			    console.log(clear);
 			});
-			validation_pengembalian(notransaksi);
+			validation_pengembalian(notransaksi,notranskembali);
 		}
 		else{
 			$('#basicExampleModal').modal('toggle');
@@ -537,7 +567,7 @@
 	      }
 	    });
 	}
-	function validation_pengembalian(notransaksi) {
+	function validation_pengembalian(notransaksi,notransaksi_kembali) {
 		$.ajax({
 	      type    :'post',
 	      url     : '<?=base_url()?>Transaction/ValidateTransaction',
@@ -553,7 +583,8 @@
 	              text: 'Data Berhasil di simpan',
 	              // footer: '<a href>Why do I have this issue?</a>'
 	            }).then((result)=>{
-	              location.reload();
+	            	window.open('<?php echo base_url(); ?>print/pengembalian-print.php?id='+notransaksi_kembali,'_blank');
+	              	location.reload();
 	              
 	            });
 	        }

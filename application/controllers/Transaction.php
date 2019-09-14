@@ -319,4 +319,21 @@ class transaction extends CI_Controller {
 		}
 		echo json_encode($data);
 	}
+	public function FIndPengembalianDetail()
+	{
+		$data = array('success' => false ,'message'=>array(),'data' =>array());
+
+		$headerid = $this->input->post('id');
+		
+		$exec = $this->Apps_mod->GetPeminjamanDetailList_fordetail($headerid);
+		if($exec){
+			$data['success'] = true;
+			$data['data'] =$exec->result();
+		}
+		else{
+			$data['message'] = 'Failed Retrive Data From Database';
+		}
+		echo json_encode($data);
+
+	}
 }
