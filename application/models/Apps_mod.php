@@ -90,4 +90,22 @@ class Apps_mod extends CI_Model
         WHERE a.kode_alat = '$itemcode'";
         return $this->db->query($sql);
     }
+    public function getAlat($namaalat)
+    {
+        $sql = "SELECT 
+        a.id,a.kode_alat,a.nama_alat,SUM(COALESCE(a.jumlah,0) - COALESCE(b.jumlah,0) + COALESCE(c.jumlahkembali,0)) stock
+        FROM masteralat a
+        LEFT JOIN(
+            SELECT x.kodemesin,SUM(x.jumlah) jumlah FROM peminjamandetail x
+            GROUP BY x.kodemesin
+        ) b on a.kode_alat = b.kodemesin
+        LEFT JOIN (
+            SELECT x.kodealat,SUM(x.jumlahkembali) jumlahkembali FROM pengembaliandetail x
+            GROUP BY x.kodealat
+        ) c on a.kode_alat = c.kodealat
+        WHERE a.nama_alat like '%$namaalat%' AND a.tglpasif IS NULL and maintain = 0
+        GROUP BY a.id
+        ";
+        return $this->db->query($sql);
+    }
 }

@@ -30,11 +30,16 @@ class transaction extends CI_Controller {
 
 	public function getDummy()
 	{
-		$data = array('success' => true ,'message'=>array(),'data' =>array());
+		$data = array('success' => true ,'message'=>array(),'data' =>array(),'masteralat'=>array());
 
 		$call = $this->db->query("select '' Prefix,'' namamsn,0 onhand,0 Jumlah");
 
 		$data['data'] = array();
+
+		$call2 = $this->db->query("SELECT id kode,CONCAT(kode_alat,' | ',nama_alat) deskripsi FROM masteralat WHERE tglpasif IS NULL AND maintain = 0")->result();
+
+		$data['masteralat'] = $call2;
+
 		echo json_encode($data);
 	}
 
@@ -44,13 +49,11 @@ class transaction extends CI_Controller {
 
 		$kode = $this->input->post('kode');
 
-		$call = $this->ModelsExecuteMaster->FindData(array('kode_alat' => $kode),'masteralat');
+		$call = $this->Apps_mod->getAlat($kode);
 		
 		if ($call->num_rows() > 0) {
 			$data['success'] = true;
 			$data['data'] = $call->result();
-			$stock = $this->Apps_mod->cekStock($kode)->row();
-			$data['onhand'] = $stock->Stock;
 		}
 		else{
 			$data['message'] = 'Failed Retrive data From Database';
