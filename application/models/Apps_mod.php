@@ -16,6 +16,14 @@ class Apps_mod extends CI_Model
     	";
     	return $this->db->query($sql);
     }
+    public function GetPeminjamanList_getpeminjaman()
+    {
+        $sql = "
+            SELECT a.id,a.notransaksi,a.tgltransaksi,b.kodefasyankes,b.namafasyankes,a.namapeminjam FROM peminjaman a
+            LEFT JOIN masterfasyankes b on a.kodefasyankes = b.id
+        ";
+        return $this->db->query($sql);
+    }
     public function GetPengembalianlist()
     {
         $sql = "

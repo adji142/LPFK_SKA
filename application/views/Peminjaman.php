@@ -110,7 +110,7 @@
 			              	</thead>
 			              	<tbody>
 			              		<?php
-			              			$datapinjam = $this->Apps_mod->GetPeminjamanList();
+			              			$datapinjam = $this->Apps_mod->GetPeminjamanList_getpeminjaman();
 			              			foreach ($datapinjam->result() as $key) {
 			              				echo "
 			              					<tr>
