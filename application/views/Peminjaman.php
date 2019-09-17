@@ -325,6 +325,9 @@
 	                Jumlah : 1
 			});
 			// console.log(items_data);
+			row_Validate += 1;
+			validation($('#tgltrans').val(),$('#fasyankes').val(),$('#nama').val(),$('#petugas').val(),$('#tujuan').val(),row_Validate);
+
 			bindGrid(items_data)
 			$('#ModalAlat').modal('toggle');
 		});
@@ -503,8 +506,8 @@
 	        	// console.log(e);
 	        	var grid = $("#gridContainer").dxDataGrid("instance");
 	        	console.log(grid);
-	            // row_Validate = row_Validate - 1;
-	            // validation($('#tgltrans').val(),$('#fasyankes').val(),$('#nama').val(),$('#petugas').val(),$('#tujuan').val(),row_Validate);
+	            row_Validate = row_Validate - 1;
+	            validation($('#tgltrans').val(),$('#fasyankes').val(),$('#nama').val(),$('#petugas').val(),$('#tujuan').val(),row_Validate);
 	        },
 			onEditorPrepared: function (e) {
 				console.log(e);
