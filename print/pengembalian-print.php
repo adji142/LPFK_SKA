@@ -1,6 +1,6 @@
 <?php
 //buka koneksi ke engine MySQL
-    $Open = mysqli_connect("localhost","root","hsp123","xlpfk_solo");
+    $Open = mysqli_connect("localhost","root","lagis3nt0s4","xlpfk_solo");
     // $Open = mysqli_connect("localhost","aistrick_root","lagis3nt0s4","aistrick_xlpfk_solo");
     //mysqli_connect("localhost","root","hsp123","dealsys");
     // $Open = mysqli_connect("localhost","root","lagis3nt0s4","dealsys");
@@ -13,7 +13,7 @@
       a.notransaksi,
       a.tgltransaksi,
       a.penerimabarang,
-      b.kodealat,
+      c.kode_alat,
       c.nama_alat,
       c.merk,
       d.namapeminjam,
@@ -22,7 +22,7 @@
     FROM pengembalian a
     LEFT JOIN pengembaliandetail b on a.notransaksi = b.headerid
     LEFT JOIN peminjaman d on a.nopinjam = d.notransaksi
-    LEFT JOIN masteralat c on b.kodealat = c.kode_alat
+    LEFT JOIN masteralat c on b.kodealat = c.id
     WHERE a.notransaksi = '$id' AND b.jumlahkembali <> 0
     GROUP BY 
     a.notransaksi,
@@ -140,7 +140,7 @@
             $result_x = mysqli_query($Open,$sql);
 
             while ($rsx = mysqli_fetch_array($result_x)) {
-              $kodemesin = stripslashes ($rsx['kodealat']);
+              $kodemesin = stripslashes ($rsx['kode_alat']);
               $nama_alat = stripslashes ($rsx['nama_alat']);
               $merk = stripslashes ($rsx['merk']);
               $jumlah = stripslashes ($rsx['jumlah']);

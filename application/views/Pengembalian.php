@@ -34,7 +34,7 @@
 			              	</thead>
 			              	<tbody>
 			              		<?php
-			              			$datapinjam = $this->apps_mod->GetPeminjamanList();
+			              			$datapinjam = $this->Apps_mod->GetPeminjamanList();
 			              			foreach ($datapinjam->result() as $key) {
 			              				echo "
 			              					<tr>
@@ -69,7 +69,7 @@
 			              	</thead>
 			              	<tbody>
 			              		<?php
-			              			$datapinjam = $this->apps_mod->GetPengembalianlist();
+			              			$datapinjam = $this->Apps_mod->GetPengembalianlist();
 			              			foreach ($datapinjam->result() as $key) {
 			              				echo "
 			              					<tr>
@@ -381,7 +381,7 @@
 			        for (i = 0; i < response.data.length; i++) {
 			          html += '<tr>' +
 			                  '<td>' + j+'</td>' +
-			                  '<td>' + response.data[i].kodemesin + '</td>' +
+			                  '<td>' + response.data[i].kode_alat + '</td>' +
 			                  '<td>' + response.data[i].nama_alat + '</td>' +
 			                  '<td>' + response.data[i].jumlah + '</td>' +
 			                  '<td>' + response.data[i].jumlahkembali + '</td>' +
@@ -422,8 +422,13 @@
 	            allowUpdating: true
 	        }, 
 	        columns: [
-	            {
+	        	{
 	                dataField: "kodemesin",
+	                caption: "Columns ID",
+	                allowEditing:false
+	            },
+	            {
+	                dataField: "kode_alat",
 	                caption: "Kode Analizer",
 	                allowEditing:false
 	            },

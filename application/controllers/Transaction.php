@@ -249,7 +249,7 @@ class transaction extends CI_Controller {
 			$Jumlahpinjam = $this->input->post('Jumlahpinjam');
 			$Jumlahkembali = $this->input->post('Jumlahkembali');
 
-			$mesincount = $this->ModelsExecuteMaster->FindData(array('kode_alat'=>$kodemesn),'masteralat');
+			$mesincount = $this->ModelsExecuteMaster->FindData(array('id'=>$kodemesn),'masteralat');
 			// var_dump($kodemesn);
 			if ($mesincount->num_rows() > 0) {
 				if ($Jumlahkembali > $Jumlahpinjam) {

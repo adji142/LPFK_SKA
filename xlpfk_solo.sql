@@ -11,7 +11,7 @@
  Target Server Version : 50552
  File Encoding         : 65001
 
- Date: 16/09/2019 23:36:36
+ Date: 17/09/2019 22:04:44
 */
 
 SET NAMES utf8mb4;
@@ -88,6 +88,25 @@ CREATE TABLE `masterlabolatorium`  (
 INSERT INTO `masterlabolatorium` VALUES (1, 'LAP01', 'parahita', '2019-11-30', 'Solo', NULL);
 
 -- ----------------------------
+-- Table structure for pemeliharaan
+-- ----------------------------
+DROP TABLE IF EXISTS `pemeliharaan`;
+CREATE TABLE `pemeliharaan`  (
+  `id` int(11) NOT NULL,
+  `notransaksi` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `tglpemeliharaan` date NULL DEFAULT NULL,
+  `alatid` int(11) NULL DEFAULT NULL,
+  `namavendor` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `penanggungjawab` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `tglselesai` date NULL DEFAULT NULL,
+  `comment1` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT 'catatan keluar',
+  `comment2` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT 'catatan masuk',
+  `createdby` int(255) NULL DEFAULT NULL,
+  `createdon` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
 -- Table structure for peminjaman
 -- ----------------------------
 DROP TABLE IF EXISTS `peminjaman`;
@@ -104,14 +123,12 @@ CREATE TABLE `peminjaman`  (
   `statustransaksi` int(11) NULL DEFAULT NULL COMMENT '0: open, 1: CLose',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_peminjaman`(`notransaksi`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of peminjaman
 -- ----------------------------
-INSERT INTO `peminjaman` VALUES (1, '1201980001', '2019-09-11', 1, 'Prasetyo Aji Wibowo', 'ALI', 'Surakarta - Kota', 37, '2019-09-11 18:18:18', 1);
-INSERT INTO `peminjaman` VALUES (2, '1201980002', '2019-09-11', 1, 'Prasetyo Aji Wibowo', 'AJJ', 'Surakarta - Kota', 37, '2019-09-11 18:20:19', 1);
-INSERT INTO `peminjaman` VALUES (3, '1201980003', '2019-09-11', 1, 'Prasetyo Aji Wibowo', 'aji', 'Surakarta - Kota', 37, '2019-09-11 18:22:06', 0);
+INSERT INTO `peminjaman` VALUES (1, '1201980001', '2019-09-17', 1, 'Prasetyo Aji Wibowo', 'AL01', 'Surakarta - Kota', 37, '2019-09-17 14:41:22', 0);
 
 -- ----------------------------
 -- Table structure for peminjamandetail
@@ -120,22 +137,20 @@ DROP TABLE IF EXISTS `peminjamandetail`;
 CREATE TABLE `peminjamandetail`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `headerid` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `kodemesin` varchar(25) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `kodemesin` int(11) NULL DEFAULT NULL,
   `jumlah` int(11) NULL DEFAULT NULL,
   `createdby` int(11) NULL DEFAULT NULL,
   `createdon` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `headerid`(`headerid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of peminjamandetail
 -- ----------------------------
-INSERT INTO `peminjamandetail` VALUES (1, '1201980001', 'AL001', 2, 37, '2019-09-11 18:18:19');
-INSERT INTO `peminjamandetail` VALUES (2, '1201980001', 'AL003', 1, 37, '2019-09-11 18:18:19');
-INSERT INTO `peminjamandetail` VALUES (3, '1201980002', 'AL003', 1, 37, '2019-09-11 18:20:20');
-INSERT INTO `peminjamandetail` VALUES (4, '1201980003', 'AL003', 1, 37, '2019-09-11 18:22:06');
-INSERT INTO `peminjamandetail` VALUES (5, '1201980003', 'AL002', 1, 37, '2019-09-11 18:22:06');
+INSERT INTO `peminjamandetail` VALUES (1, '1201980001', 2, 1, 37, '2019-09-17 14:41:22');
+INSERT INTO `peminjamandetail` VALUES (2, '1201980001', 1, 1, 37, '2019-09-17 14:41:22');
+INSERT INTO `peminjamandetail` VALUES (3, '1201980001', 3, 1, 37, '2019-09-17 14:41:22');
 
 -- ----------------------------
 -- Table structure for pengembalian
@@ -150,14 +165,12 @@ CREATE TABLE `pengembalian`  (
   `createdon` datetime NULL DEFAULT NULL,
   `createdby` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of pengembalian
 -- ----------------------------
-INSERT INTO `pengembalian` VALUES (1, '2201980001', '2019-09-13', '1201980001', 'A', '2019-09-13 13:49:56', '37');
-INSERT INTO `pengembalian` VALUES (2, '2201980002', '2019-09-13', '1201980001', 'AL', '2019-09-13 13:50:34', '37');
-INSERT INTO `pengembalian` VALUES (3, '2201980003', '2019-09-13', '1201980002', 'KK', '2019-09-13 13:59:40', '37');
+INSERT INTO `pengembalian` VALUES (1, '2201980001', '2019-09-17', '1201980001', 'A', '2019-09-17 15:01:57', '37');
 
 -- ----------------------------
 -- Table structure for pengembaliandetail
@@ -166,20 +179,19 @@ DROP TABLE IF EXISTS `pengembaliandetail`;
 CREATE TABLE `pengembaliandetail`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `headerid` varchar(25) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `kodealat` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `kodealat` int(11) NULL DEFAULT NULL,
   `jumlahkembali` int(15) NULL DEFAULT NULL,
   `createdon` datetime NULL DEFAULT NULL,
   `createdby` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of pengembaliandetail
 -- ----------------------------
-INSERT INTO `pengembaliandetail` VALUES (1, '2201980001', 'AL001', 0, '2019-09-13 13:49:56', '37');
-INSERT INTO `pengembaliandetail` VALUES (2, '2201980001', 'AL003', 1, '2019-09-13 13:49:56', '37');
-INSERT INTO `pengembaliandetail` VALUES (3, '2201980002', 'AL001', 2, '2019-09-13 13:50:34', '37');
-INSERT INTO `pengembaliandetail` VALUES (4, '2201980003', 'AL003', 1, '2019-09-13 13:59:41', '37');
+INSERT INTO `pengembaliandetail` VALUES (1, '2201980001', 2, 1, '2019-09-17 15:01:58', '37');
+INSERT INTO `pengembaliandetail` VALUES (2, '2201980001', 3, 0, '2019-09-17 15:01:58', '37');
+INSERT INTO `pengembaliandetail` VALUES (3, '2201980001', 1, 0, '2019-09-17 15:01:58', '37');
 
 -- ----------------------------
 -- Table structure for permission
@@ -193,7 +205,7 @@ CREATE TABLE `permission`  (
   `menusubmenu` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `multilevel` bit(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of permission
@@ -204,6 +216,7 @@ INSERT INTO `permission` VALUES (3, 'Peminjaman Alat', 'home/pinjam', NULL, '2',
 INSERT INTO `permission` VALUES (4, 'Pengembalian Alat', 'home/kembali', NULL, '2', b'1');
 INSERT INTO `permission` VALUES (5, 'Master', NULL, 'icon-th-list', '0', b'1');
 INSERT INTO `permission` VALUES (6, 'Daftar FASYANKES', 'home/fasyankes', NULL, '5', b'1');
+INSERT INTO `permission` VALUES (7, 'Pemeliharaan', NULL, NULL, '2', b'1');
 
 -- ----------------------------
 -- Table structure for permissionrole

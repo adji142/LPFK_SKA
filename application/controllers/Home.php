@@ -23,7 +23,7 @@ class home extends CI_Controller {
 		parent::__construct();
 		$this->load->model('ModelsExecuteMaster');
 		$this->load->model('GlobalVar');
-		$this->load->model('apps_mod');
+		$this->load->model('Apps_mod');
 	}
 	public function index()
 	{

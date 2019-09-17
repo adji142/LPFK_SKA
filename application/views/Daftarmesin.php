@@ -41,7 +41,7 @@
 		              	</thead>
 		              	<tbody>
 		              		<?php
-		              			$data_alat = $this->ModelsExecuteMaster->FindData(array('tglpasif'=>null),'masteralat');
+		              			$data_alat = $this->Apps_mod->getAlat('');
 		              			foreach ($data_alat->result() as $key) {
 		              				echo "
 		              					<tr>
@@ -50,11 +50,12 @@
 		              						<td>".$key->no_seri."</td>
 		              						<td>".$key->merk."</td>
 		              						<td>".$key->model."</td>
-		              						<td>".$key->jumlah."</td>
+		              						<td>".$key->stock."</td>
 		              						<td>".$key->comment."</td>
 		              						<td>
 		              							<button class = 'btn btn-mini btn-danger delete' id = '".$key->id."'>Delete</button>
 		              							<button class = 'btn btn-mini btn-info edit' id = '".$key->id."'>Edit</button>
+		              							<button class = 'btn btn-mini btn-warning pelihara' id = '".$key->id."'>Pemeliharaan</button>
 		              						</td>
 		              					</tr>
 		              				";
@@ -69,7 +70,54 @@
   </div>
 <!-- </div> -->
 <!-- Button trigger modal -->
-
+<div class="modal hide" id="modalPelihara" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog-scrollable" role="document">
+  	<div class="modal-content">
+  		<div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel"><div id="title_modal"></div></h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	    </div>
+	    <div class="modal-body">
+	    	<form action="#" class="form-horizontal" enctype='application/json'>
+	    		<div class="control-group">
+	              <label class="control-label">Nomer Transaksi :</label>
+	              <div class="controls">
+	                <input type="text" class="span3" placeholder="Nomer Transaksi" id="notranskembali" name="notranskembali" readonly="" />
+	                <input type="hidden" name="stockid" id="stockid">
+	              </div>
+	            </div>
+	            <div class="control-group">
+	              <label class="control-label">Tanggal Transaksi :</label>
+	              <div class="controls">
+	                <input type="date" class="span3" placeholder="Tanggal Transaksi" id="tgltranskmbali" name="tgltranskmbali"/>
+	              </div>
+	            </div>
+	            <div class="control-group">
+	              <label class="control-label">Nama Vendor :</label>
+	              <div class="controls">
+	                <input type="text" class="span3" placeholder="Nama Vendor" id="vendor" name="vendor"/>
+	              </div>
+	            </div>
+	            <div class="control-group">
+	              <label class="control-label">Nama Penanggungjawan :</label>
+	              <div class="controls">
+	                <input type="text" class="span3" placeholder="Nama Penanggungjawan" id="pic" name="pic"/>
+	              </div>
+	            </div>
+	            <div class="control-group">
+	              <label class="control-label">Keterangan :</label>
+	              <div class="controls">
+	                <input type="text" class="span3" placeholder="Keterangan" id="ket" name="ket"/>
+	              </div>
+	            </div>
+	    	</form>
+	    </div>
+  	</div>
+  </div>
+</div>
 <!-- Modal -->
 <div class="modal hide" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
@@ -345,6 +393,13 @@
 			  }
 			})
 	    });
+
+	    $('.pelihara').click(function () {
+	    	var id = $(this).attr("id");
+	    	$('#stockid').val(id);
+
+	    	$('#modalPelihara').modal('show')
+	    })
 	});
 	function reset() {
 		$('#kdalat').attr('readonly',false);

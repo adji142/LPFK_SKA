@@ -27,13 +27,13 @@
 				        	<div class="control-group">
 				              <label class="control-label">Nomer Peminjaman :</label>
 				              <div class="controls">
-				                <input type="text" class="span3" placeholder="Nomer Peminjaman" id="notrans" name="notrans" readonly="" />
+				                <input type="text" class="span6" placeholder="Nomer Peminjaman" id="notrans" name="notrans" readonly="" />
 				              </div>
 				            </div>
 				            <div class="control-group">
 				              <label class="control-label">Tanggal Peminjaman :</label>
 				              <div class="controls">
-				                <input type="date" class="span3" placeholder="Tanggal Transaksi" id="tgltrans" name="tgltrans"/>
+				                <input type="date" class="span6" placeholder="Tanggal Transaksi" id="tgltrans" name="tgltrans"/>
 				              </div>
 				            </div>
 				            <div class="control-group">
@@ -41,7 +41,7 @@
 				                <!-- <input type="text" class="span3" placeholder="Nomer Transaksi" id="notrans" name="notrans" readonly="" /> -->
 				                <div class="control-group">
 					              <div class="controls">
-					                <select id="fasyankes" name="fasyankes">
+					                <select id="fasyankes" name="fasyankes" class="span6">
 					                  <option value="">--- Select Data ---</option>
 					                  <?php
 					                  	$data_fas = $this->ModelsExecuteMaster->FindData(array('tglpasif'=>null),'masterfasyankes');
@@ -56,19 +56,19 @@
 				            <div class="control-group">
 				              <label class="control-label">Nama Peminjam :</label>
 				              <div class="controls">
-				                <input type="text" class="span3" placeholder="Nama Peminjam" id="nama" name="nama"/>
+				                <input type="text" class="span6" placeholder="Nama Peminjam" id="nama" name="nama"/>
 				              </div>
 				            </div>
 				            <div class="control-group">
 				              <label class="control-label">Nama Petugas :</label>
 				              <div class="controls">
-				                <input type="text" class="span3" placeholder="Nama Petugas" id="petugas" name="petugas"/>
+				                <input type="text" class="span6" placeholder="Nama Petugas" id="petugas" name="petugas"/>
 				              </div>
 				            </div>
 				            <div class="control-group">
 				              <label class="control-label">Tujuan Pinjam :</label>
 				              <div class="controls">
-				                <input type="text" class="span3" placeholder="Tujuan Pinjam" id="tujuan" name="tujuan"/>
+				                <input type="text" class="span6" placeholder="Tujuan Pinjam" id="tujuan" name="tujuan"/>
 				              </div>
 				            </div>
 				        </form>
@@ -91,7 +91,7 @@
 								</button>
 	    					</i>
 	    				</span> -->
-			            <h5>Data table</h5>
+			            <h5>List Data Peminjaman</h5>
 			        </a>
 		        </div>
 		        <div class="collapse" id="collapseOne">
@@ -322,7 +322,7 @@
 	                Prefix : kodealat,
 	                namamsn: namaalat,
 	                onhand : stock,
-	                Jumlah :0
+	                Jumlah : 1
 			});
 			// console.log(items_data);
 			bindGrid(items_data)
@@ -578,7 +578,7 @@
 		if (data != '[]') {
 			var row = 'detail';
 			$.each(data,function (k,v) {
-				var kodemesn = v.Prefix;
+				var kodemesn = v.ClmID;
 				var Jumlah = v.Jumlah;
 				$.ajax({
 			      type    :'post',
