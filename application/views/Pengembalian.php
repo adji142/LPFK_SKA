@@ -25,7 +25,7 @@
 			        	<table class="table table-bordered data-table">
 			        		<thead>
 				                <tr>
-				                  <th>#</th>
+				                  <th>Aksi</th>
 				                  <th>Nomor Transaksi</th>
 				                  <th>Tanggal Transaksi</th>
 				                  <th>Fasyankes</th>
@@ -58,7 +58,7 @@
 			        	<table class="table table-bordered data-table">
 			        		<thead>
 				                <tr>
-				                  <th>#</th>
+				                  <th>Aksi</th>
 				                  <th>Nomor Pengembalian</th>
 				                  <th>Tanggal Pengembalian</th>
 				                  <th>Penerima Barang</th>
@@ -214,7 +214,7 @@
         <table class="table table-bordered data-table">
         	<thead>
               <tr>
-              	<th>#</th>
+              	<th>Aksi</th>
                 <th>Kode Analizer</th>
                 <th>Nama Analizer</th>
                 <th>Jumlah Pinjam</th>

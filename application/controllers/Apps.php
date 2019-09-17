@@ -142,6 +142,78 @@ class Apps extends CI_Controller {
 		}
 		echo json_encode($data);
 	}
+	public function InserPemeliharaan()
+	{
+		$data = array('success' => false ,'message'=>array(),'id' =>'');
+
+		// parameter
+
+		$notrans = $this->input->post('notrans');
+		$tgltrans = $this->input->post('tgltrans');
+		$vendor = $this->input->post('vendor');
+		$pic = $this->input->post('pic');
+		$ket = $this->input->post('ket');
+		$stockid = $this->input->post('stockid');
+		$user_id = $this->session->userdata('userid');
+
+		// 
+		$insert = array(
+			'notransaksi' 		=> $notrans,
+			'tglpemeliharaan'	=> $tgltrans,
+			'namavendor'		=> $vendor,
+			'penanggungjawab'	=> $pic,
+			'penanggungjawab'	=> $ket,
+			'alatid'			=> $stockid,
+			'comment1'			=> $ket,
+			'createdby'			=> $user_id,
+			'createdon'			=> date("Y-m-d H:i:s")
+		);
+
+		$call = $this->ModelsExecuteMaster->ExecInsert($insert,'pemeliharaan');
+
+		if ($call) {
+			$query = $this->ModelsExecuteMaster->ExecUpdate(array('maintain'=>1),array('id'=>$stockid),'masteralat');
+			if ($query) {
+				$data['success'] = true;
+			}
+		}
+		else{
+			$data['message'] = 'Data Gagal di input';
+		}
+		echo json_encode($data);
+	}
+	public function pemeliharaanDone()
+	{
+		$data = array('success' => false ,'message'=>array(),'id' =>'');
+		$tgltrans = $this->input->post('tgltrans');
+		$notrx = $this->input->post('notrx');
+		$ket = $this->input->post('ket');
+
+		$get = $this->ModelsExecuteMaster->FindData(array('notransaksi'=>$notrx),'pemeliharaan');
+		if ($get->num_rows() > 0) {
+			$Update = array(
+				'tglselesai'	=> $tgltrans,
+				'comment2'		=> $ket
+			);
+			$exec = $this->ModelsExecuteMaster->ExecUpdate($Update,array('notransaksi'=>$notrx),'pemeliharaan');
+			if ($exec) {
+				$query = $this->ModelsExecuteMaster->ExecUpdate(array('maintain'=>0),array('id'=>$get->row()->alatid),'masteralat');
+				if ($query) {
+					$data['success'] = true;
+				}
+				else{
+					$data['message'] = 'Gagal Update Alat';
+				}
+			}
+			else{
+				$data['message'] = 'Gagal Update Transaksi';
+			}
+		}
+		else{
+			$data['message'] = 'Nomer Transaksi Tidak Valid';
+		}
+		echo json_encode($data);
+	}
 
 	// ==================================================== Mesin ====================================================
 

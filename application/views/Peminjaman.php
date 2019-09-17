@@ -100,7 +100,7 @@
 			        	<table class="table table-bordered data-table">
 			        		<thead>
 				                <tr>
-				                  <th>#</th>
+				                  <th>Aksi</th>
 				                  <th>Nomor Peminjaman</th>
 				                  <th>Tanggal Peminjaman</th>
 				                  <th>Kode  Fasyankes</th>
@@ -110,7 +110,7 @@
 			              	</thead>
 			              	<tbody>
 			              		<?php
-			              			$datapinjam = $this->apps_mod->GetPeminjamanList();
+			              			$datapinjam = $this->Apps_mod->GetPeminjamanList();
 			              			foreach ($datapinjam->result() as $key) {
 			              				echo "
 			              					<tr>
@@ -155,7 +155,7 @@
         <table class="table table-bordered data-table">
         	<thead>
               <tr>
-              	<th>#</th>
+              	<th>Aksi</th>
                 <th>Kode Analizer</th>
                 <th>Nama Analizer</th>
                 <th>Jumlah Pinjam</th>
@@ -333,6 +333,7 @@
 	    	// console.log($('#tgltrans').val());
 	    	validation($('#tgltrans').val(),$('#fasyankes').val(),$('#nama').val(),$('#petugas').val(),$('#tujuan').val(),row_Validate);
 	    	form_mode = 'add';
+	    	console.log(form_mode);
 	    	// ============================================= GENERATE NUMBER ===================================
 	    	var table = 'peminjaman';
 	    	var field = 'notransaksi';

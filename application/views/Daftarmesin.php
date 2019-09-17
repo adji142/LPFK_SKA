@@ -36,13 +36,21 @@
 			                  <th>Model</th>
 			                  <th>Tersedia</th>
 			                  <th>Keterangan</th>
+			                  <th>Status</th>
 			                  <th>aksi</th>
 			                </tr>
 		              	</thead>
 		              	<tbody>
 		              		<?php
-		              			$data_alat = $this->Apps_mod->getAlat('');
+		              			$disabled = '';
+		              			$data_alat = $this->Apps_mod->getAlat_master();
 		              			foreach ($data_alat->result() as $key) {
+		              				if ($key->statustrx != 'Available') {
+		              					$disabled = 'disabled';
+		              				}
+		              				else{
+		              					$disabled = '';
+		              				}
 		              				echo "
 		              					<tr>
 		              						<td>".$key->kode_alat."</td>
@@ -52,10 +60,11 @@
 		              						<td>".$key->model."</td>
 		              						<td>".$key->stock."</td>
 		              						<td>".$key->comment."</td>
+		              						<td>".$key->statustrx."</td>
 		              						<td>
-		              							<button class = 'btn btn-mini btn-danger delete' id = '".$key->id."'>Delete</button>
-		              							<button class = 'btn btn-mini btn-info edit' id = '".$key->id."'>Edit</button>
-		              							<button class = 'btn btn-mini btn-warning pelihara' id = '".$key->id."'>Pemeliharaan</button>
+		              							<button class = 'btn btn-mini btn-danger delete' id = '".$key->id."' ".$disabled.">Delete</button>
+		              							<button class = 'btn btn-mini btn-info edit' id = '".$key->id."' ".$disabled.">Edit</button>
+		              							<button class = 'btn btn-mini btn-warning pelihara' id = '".$key->id."' ".$disabled.">Pemeliharaan</button>
 		              						</td>
 		              					</tr>
 		              				";
@@ -81,30 +90,30 @@
 	        </button>
 	    </div>
 	    <div class="modal-body">
-	    	<form action="#" class="form-horizontal" enctype='application/json'>
+	    	<form action="#" class="form-horizontal" enctype='application/json' id="post_pelihara">
 	    		<div class="control-group">
 	              <label class="control-label">Nomer Transaksi :</label>
 	              <div class="controls">
-	                <input type="text" class="span3" placeholder="Nomer Transaksi" id="notranskembali" name="notranskembali" readonly="" />
+	                <input type="text" class="span3" placeholder="Nomer Transaksi" id="notrans" name="notrans" readonly="" required="" />
 	                <input type="hidden" name="stockid" id="stockid">
 	              </div>
 	            </div>
 	            <div class="control-group">
 	              <label class="control-label">Tanggal Transaksi :</label>
 	              <div class="controls">
-	                <input type="date" class="span3" placeholder="Tanggal Transaksi" id="tgltranskmbali" name="tgltranskmbali"/>
+	                <input type="date" class="span3" placeholder="Tanggal Transaksi" id="tgltrans" name="tgltrans" required="" />
 	              </div>
 	            </div>
 	            <div class="control-group">
 	              <label class="control-label">Nama Vendor :</label>
 	              <div class="controls">
-	                <input type="text" class="span3" placeholder="Nama Vendor" id="vendor" name="vendor"/>
+	                <input type="text" class="span3" placeholder="Nama Vendor" id="vendor" name="vendor" required="" />
 	              </div>
 	            </div>
 	            <div class="control-group">
 	              <label class="control-label">Nama Penanggungjawan :</label>
 	              <div class="controls">
-	                <input type="text" class="span3" placeholder="Nama Penanggungjawan" id="pic" name="pic"/>
+	                <input type="text" class="span3" placeholder="Nama Penanggungjawan" id="pic" name="pic" required="" />
 	              </div>
 	            </div>
 	            <div class="control-group">
@@ -113,6 +122,7 @@
 	                <input type="text" class="span3" placeholder="Keterangan" id="ket" name="ket"/>
 	              </div>
 	            </div>
+	            <button class="btn btn-primary" id="btn_Save_maintain">Save</button>
 	    	</form>
 	    </div>
   	</div>
@@ -209,6 +219,28 @@
 
 	    $(document).ready(function () {
 	    	form_mode = 'add';
+	    	var table = 'pemeliharaan';
+	    	var field = 'notransaksi';
+	    	var prev = 0;
+	    	$.ajax({
+		      type    :'post',
+		      url     : '<?=base_url()?>Transaction/GetNumeric',
+		      data    : {table:table,field:field},
+		      dataType: 'json',
+		      success:function (response) {
+		        if(response.success == true){
+		        	var str = "" + response.prefix;
+					var pad = "0000";
+					var ans = pad.substring(0, pad.length - str.length) + str;
+
+					var today = new Date();
+					var year = today.getFullYear();
+					var month = today.getMonth();
+
+			    	$('#notrans').val('3'+year+''+month+''+ans);
+		        }
+		      }
+		    });
 	    });
 
 	    $('#add_btn').click(function () {
@@ -399,7 +431,46 @@
 	    	$('#stockid').val(id);
 
 	    	$('#modalPelihara').modal('show')
-	    })
+	    });
+	    $('#post_pelihara').submit(function (e) {
+	    	$('#btn_Save_maintain').text('Tunggu Sebentar.....');
+		    $('#btn_Save_maintain').attr('disabled',true);
+
+		    e.preventDefault();
+		    var me = $(this);
+		    $.ajax({
+		        type    :'post',
+		        url     : '<?=base_url()?>Apps/InserPemeliharaan',
+		        data    : me.serialize(),
+		        dataType: 'json',
+		        success : function (response) {
+		          if(response.success == true){
+		            $('#modalPelihara').modal('toggle');
+		            Swal.fire({
+		              type: 'success',
+		              title: 'Horay..',
+		              text: 'Data Berhasil disimpan!',
+		              // footer: '<a href>Why do I have this issue?</a>'
+		            }).then((result)=>{
+		              location.reload();
+		            });
+		          }
+		          else{
+		            $('#modalPelihara').modal('toggle');
+		            Swal.fire({
+		              type: 'error',
+		              title: 'Woops...',
+		              text: response.message,
+		              // footer: '<a href>Why do I have this issue?</a>'
+		            }).then((result)=>{
+		            	$('#modalPelihara').modal('show');
+			            $('#btn_Save_maintain').text('Save');
+			            $('#btn_Save_maintain').attr('disabled',false);
+		            });
+		          }
+		        }
+		      });
+	    });
 	});
 	function reset() {
 		$('#kdalat').attr('readonly',false);
