@@ -104,11 +104,28 @@
 	                <input type="date" class="span3" placeholder="Tanggal Transaksi" id="tgltrans" name="tgltrans" required="" />
 	              </div>
 	            </div>
-	            <div class="control-group">
+	            <!-- <div class="control-group">
 	              <label class="control-label">Nama Vendor :</label>
 	              <div class="controls">
 	                <input type="text" class="span3" placeholder="Nama Vendor" id="vendor" name="vendor" required="" />
 	              </div>
+	            </div> -->
+	            <div class="control-group">
+	              <label class="control-label">Vendor :</label>
+	                <!-- <input type="text" class="span3" placeholder="Nomer Transaksi" id="notrans" name="notrans" readonly="" /> -->
+	                <div class="control-group">
+		              <div class="controls">
+		                <select id="vendor" name="vendor" class="span6">
+		                  <option value="">--- Select Data ---</option>
+		                  <?php
+		                  	$data_fas = $this->ModelsExecuteMaster->GetData('mastervendor');
+		                  	foreach ($data_fas->result() as $key) {
+		                  		echo "<option value = '".$key->namavendor."'>".$key->namavendor."</option>";
+		                  	}
+		                  ?>
+		                </select>
+		              </div>
+		            </div>
 	            </div>
 	            <div class="control-group">
 	              <label class="control-label">Nama Penanggungjawan :</label>

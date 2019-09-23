@@ -53,4 +53,12 @@ class home extends CI_Controller {
 	{
 		$this->load->view('pemeliharaan');
 	}
+	public function pegawai()
+	{
+		$this->load->view('Pegawai');
+	}
+	public function vendor()
+	{
+		$this->load->view('Vendor');
+	}
 }

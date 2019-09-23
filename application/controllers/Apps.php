@@ -442,5 +442,195 @@ class Apps extends CI_Controller {
 		}
 		echo json_encode($data);
 	}
-	
+	// ==================================================== Pegawai =============================================
+
+	public function InsertPegawaiData()
+	{
+		$data = array('success' => false ,'message'=>array(),'id' =>'');
+
+		// parameter kode:kode,nama:nama,alamat:alamat,tlp:tlp,mail:mail,pj:pj,tgl:tgl,ket:ket}
+
+		$nik = $this->input->post('nik');
+		$nama = $this->input->post('nama');
+		$divisi = $this->input->post('divisi');
+		$alamat = $this->input->post('alamat');
+		$tlp = $this->input->post('tlp');
+		$joindate = $this->input->post('joindate');
+		$resigndate = $this->input->post('resigndate');
+		$jk = $this->input->post('jk');
+		$jabatan = $this->input->post('jabatan');
+		$user_id = $this->session->userdata('userid');
+
+		// 
+		$insert = array(
+			'nik' 		=> $nik,
+			'nama'		=> $nama,
+			'alamat'	=> $alamat,
+			'notlp'		=> $tlp,
+			'divisi'	=> $divisi,
+			'tgljoin'	=> $joindate,
+			'tglresign'	=> $resigndate,
+			'createdon'	=> date("Y-m-d H:i:s"),
+			'createdby'	=> $user_id,
+			'jeniskelamin' => $jk,
+			'jabatan' => $jabatan,
+		);
+
+		$call = $this->ModelsExecuteMaster->ExecInsert($insert,'pegawai');
+
+		if ($call) {
+			$data['success'] = true;
+		}
+		else{
+			$data['message'] = 'Data Gagal di input';
+		}
+		echo json_encode($data);
+	}
+	public function GetPegawaiData()
+	{
+		$data = array('success' => false ,'message'=>array(),'data' =>array());
+
+		$id = $this->input->post('id');
+
+		$where = array(
+			'id'			=> $id,
+		);
+
+		$exec = $this->ModelsExecuteMaster->FindData($where,'pegawai');
+		if($exec){
+			$data['success'] = true;
+			$data['data'] =$exec->result();
+		}
+		else{
+			$data['message'] = 'Data Not Found';
+		}
+		echo json_encode($data);
+	}
+	public function EditPegawaiData()
+	{
+		$data = array('success' => false ,'message'=>array(),'id' =>'');
+
+		// parameter
+		$nik = $this->input->post('nik');
+		$nama = $this->input->post('nama');
+		$divisi = $this->input->post('divisi');
+		$alamat = $this->input->post('alamat');
+		$tlp = $this->input->post('tlp');
+		$joindate = $this->input->post('joindate');
+		$resigndate = $this->input->post('resigndate');
+		$jk = $this->input->post('jk');
+		$jabatan = $this->input->post('jabatan');
+		// 
+		$Update = array(
+			'nama'		=> $nama,
+			'alamat'	=> $alamat,
+			'notlp'		=> $tlp,
+			'divisi'	=> $divisi,
+			'tgljoin'	=> $joindate,
+			'tglresign'	=> $resigndate,
+			'jeniskelamin' => $jk,
+			'jabatan' => $jabatan,
+		);
+
+		$where = array(
+			'nik'	=> $nik
+		);
+		$call = $this->ModelsExecuteMaster->ExecUpdate($Update,$where,'pegawai');
+
+		if ($call) {
+			$data['success'] = true;
+		}
+		else{
+			$data['message'] = 'Data Gagal di Update';
+		}
+		echo json_encode($data);
+	}
+
+	// ==================================================== Pegawai =============================================
+	// ==================================================== Vendor =============================================
+
+	public function InsertVendorData()
+	{
+		$data = array('success' => false ,'message'=>array(),'id' =>'');
+
+		// parameter kode:kode,nama:nama,alamat:alamat,tlp:tlp,mail:mail,pj:pj,tgl:tgl,ket:ket}
+
+		$kode = $this->input->post('kode');
+		$nama = $this->input->post('nama');
+		$alamat = $this->input->post('alamat');
+		$tlp = $this->input->post('tlp');
+		$joindate = $this->input->post('joindate');
+		$user_id = $this->session->userdata('userid');
+
+		// 
+		$insert = array(
+			'kodevendor'=> $kode,
+			'namavendor'=> $nama,
+			'alamat'	=> $alamat,
+			'tlp'		=> $tlp,
+			'tglmasuk'	=> $joindate,
+		);
+
+		$call = $this->ModelsExecuteMaster->ExecInsert($insert,'mastervendor');
+
+		if ($call) {
+			$data['success'] = true;
+		}
+		else{
+			$data['message'] = 'Data Gagal di input';
+		}
+		echo json_encode($data);
+	}
+	public function GetVendorData()
+	{
+		$data = array('success' => false ,'message'=>array(),'data' =>array());
+
+		$id = $this->input->post('id');
+
+		$where = array(
+			'id'			=> $id,
+		);
+
+		$exec = $this->ModelsExecuteMaster->FindData($where,'mastervendor');
+		if($exec){
+			$data['success'] = true;
+			$data['data'] =$exec->result();
+		}
+		else{
+			$data['message'] = 'Data Not Found';
+		}
+		echo json_encode($data);
+	}
+	public function EditVendorData()
+	{
+		$data = array('success' => false ,'message'=>array(),'id' =>'');
+
+		// parameter
+		$kode = $this->input->post('kode');
+		$nama = $this->input->post('nama');
+		$alamat = $this->input->post('alamat');
+		$tlp = $this->input->post('tlp');
+		$joindate = $this->input->post('joindate');
+		$user_id = $this->session->userdata('userid');
+		// 
+		$Update = array(
+			'namavendor'=> $nama,
+			'alamat'	=> $alamat,
+			'tlp'		=> $tlp,
+			'tglmasuk'	=> $joindate,
+		);
+
+		$where = array(
+			'kodevendor'	=> $kode
+		);
+		$call = $this->ModelsExecuteMaster->ExecUpdate($Update,$where,'mastervendor');
+
+		if ($call) {
+			$data['success'] = true;
+		}
+		else{
+			$data['message'] = 'Data Gagal di Update';
+		}
+		echo json_encode($data);
+	}
 }

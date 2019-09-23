@@ -28,6 +28,7 @@
 				                  <th>Aksi</th>
 				                  <th>Nomor Transaksi</th>
 				                  <th>Tanggal Transaksi</th>
+				                  <th>Kode Fasyankes</th>
 				                  <th>Fasyankes</th>
 				                  <th>Penanggung Jawab</th>
 				                </tr>
@@ -45,6 +46,7 @@
 			              						</td>
 			              						<td>".$key->notransaksi."</td>
 			              						<td>".$key->tgltransaksi."</td>
+			              						<td>".$key->kodefasyankes."</td>
 			              						<td>".$key->namafasyankes."</td>
 			              						<td>".$key->namapeminjam."</td>
 			              					</tr>

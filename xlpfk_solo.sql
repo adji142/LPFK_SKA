@@ -11,7 +11,7 @@
  Target Server Version : 50552
  File Encoding         : 65001
 
- Date: 18/09/2019 00:07:44
+ Date: 23/09/2019 20:04:47
 */
 
 SET NAMES utf8mb4;
@@ -88,6 +88,50 @@ CREATE TABLE `masterlabolatorium`  (
 INSERT INTO `masterlabolatorium` VALUES (1, 'LAP01', 'parahita', '2019-11-30', 'Solo', NULL);
 
 -- ----------------------------
+-- Table structure for mastervendor
+-- ----------------------------
+DROP TABLE IF EXISTS `mastervendor`;
+CREATE TABLE `mastervendor`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `kodevendor` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `namavendor` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `alamat` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `tlp` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `tglmasuk` date NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of mastervendor
+-- ----------------------------
+INSERT INTO `mastervendor` VALUES (1, 'VD-001', 'Prasetyo Aji Wibowo', 'Solo 1', '081325058258', '2019-09-23');
+
+-- ----------------------------
+-- Table structure for pegawai
+-- ----------------------------
+DROP TABLE IF EXISTS `pegawai`;
+CREATE TABLE `pegawai`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nik` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `jeniskelamin` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `alamat` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `notlp` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `divisi` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `jabatan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `tgljoin` date NULL DEFAULT NULL,
+  `tglresign` date NULL DEFAULT NULL,
+  `createdon` datetime NULL DEFAULT NULL,
+  `createdby` int(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of pegawai
+-- ----------------------------
+INSERT INTO `pegawai` VALUES (1, '123456', 'Prasetyo Aji Wibowo', 'L', 'Solo', '081325058258', 'IT', 'MNG', '2019-09-23', '0000-00-00', '2019-09-23 13:55:07', 37);
+
+-- ----------------------------
 -- Table structure for pemeliharaan
 -- ----------------------------
 DROP TABLE IF EXISTS `pemeliharaan`;
@@ -104,7 +148,12 @@ CREATE TABLE `pemeliharaan`  (
   `createdby` int(255) NULL DEFAULT NULL,
   `createdon` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of pemeliharaan
+-- ----------------------------
+INSERT INTO `pemeliharaan` VALUES (1, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 37, '2019-09-23 13:53:16');
 
 -- ----------------------------
 -- Table structure for peminjaman
@@ -123,7 +172,12 @@ CREATE TABLE `peminjaman`  (
   `statustransaksi` int(11) NULL DEFAULT NULL COMMENT '0: open, 1: CLose',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_peminjaman`(`notransaksi`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of peminjaman
+-- ----------------------------
+INSERT INTO `peminjaman` VALUES (1, '1201980001', '2019-09-23', 1, 'Prasetyo Aji Wibowo', 'Prasetyo Aji Wibowo', 'Surakarta - Kota', 37, '2019-09-23 14:57:24', 0);
 
 -- ----------------------------
 -- Table structure for peminjamandetail
@@ -138,7 +192,12 @@ CREATE TABLE `peminjamandetail`  (
   `createdon` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `headerid`(`headerid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of peminjamandetail
+-- ----------------------------
+INSERT INTO `peminjamandetail` VALUES (1, '1201980001', 3, 1, 37, '2019-09-23 14:57:24');
 
 -- ----------------------------
 -- Table structure for pengembalian
@@ -181,7 +240,7 @@ CREATE TABLE `permission`  (
   `menusubmenu` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `multilevel` bit(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of permission
@@ -193,6 +252,8 @@ INSERT INTO `permission` VALUES (4, 'Pengembalian Alat', 'home/kembali', NULL, '
 INSERT INTO `permission` VALUES (5, 'Master', NULL, 'icon-th-list', '0', b'1');
 INSERT INTO `permission` VALUES (6, 'Daftar FASYANKES', 'home/fasyankes', NULL, '5', b'1');
 INSERT INTO `permission` VALUES (7, 'Pemeliharaan', 'home/pelihara', NULL, '2', b'1');
+INSERT INTO `permission` VALUES (8, 'Daftar Pegawai', 'home/pegawai', NULL, '5', b'1');
+INSERT INTO `permission` VALUES (9, 'Daftar Vendor', 'home/vendor', NULL, '5', b'1');
 
 -- ----------------------------
 -- Table structure for permissionrole
@@ -213,6 +274,8 @@ INSERT INTO `permissionrole` VALUES (1, 4);
 INSERT INTO `permissionrole` VALUES (1, 5);
 INSERT INTO `permissionrole` VALUES (1, 6);
 INSERT INTO `permissionrole` VALUES (1, 7);
+INSERT INTO `permissionrole` VALUES (1, 8);
+INSERT INTO `permissionrole` VALUES (1, 9);
 
 -- ----------------------------
 -- Table structure for roles

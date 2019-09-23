@@ -59,11 +59,28 @@
 				                <input type="text" class="span6" placeholder="Nama Peminjam" id="nama" name="nama"/>
 				              </div>
 				            </div>
-				            <div class="control-group">
+				            <!-- <div class="control-group">
 				              <label class="control-label">Nama Petugas :</label>
 				              <div class="controls">
 				                <input type="text" class="span6" placeholder="Nama Petugas" id="petugas" name="petugas"/>
 				              </div>
+				            </div> -->
+				            <div class="control-group">
+				              <label class="control-label">Nama Petugas :</label>
+				                <!-- <input type="text" class="span3" placeholder="Nomer Transaksi" id="notrans" name="notrans" readonly="" /> -->
+				                <div class="control-group">
+					              <div class="controls">
+					                <select id="petugas" name="petugas" class="span6">
+					                  <option value="">--- Select Data ---</option>
+					                  <?php
+					                  	$data_fas = $this->ModelsExecuteMaster->FindData(array('tglresign'=>'0000-00-00'),'pegawai');
+					                  	foreach ($data_fas->result() as $key) {
+					                  		echo "<option value = '".$key->nama."'>".$key->nama."</option>";
+					                  	}
+					                  ?>
+					                </select>
+					              </div>
+					            </div>
 				            </div>
 				            <div class="control-group">
 				              <label class="control-label">Tujuan Pinjam :</label>
@@ -191,6 +208,7 @@
         	<thead>
               <tr>
               	<th>Row ID</th>
+              	<th>Serial Number</th>
                 <th>Kode Analizer</th>
                 <th>Nama Analizer</th>
                 <th>Jumlah Tersedia</th>
@@ -545,6 +563,7 @@
 							        for (i = 0; i < response.data.length; i++) {
 							          html += '<tr>' +
 							                  '<td id = "rowid">' + response.data[i].id+'</td>' +
+							                  '<td id = "kodealat">' + response.data[i].no_seri + '</td>' +
 							                  '<td id = "kodealat">' + response.data[i].kode_alat + '</td>' +
 							                  '<td id = "namaalat">' + response.data[i].nama_alat + '</td>' +
 							                  '<td id = "stk">' + response.data[i].stock + '</td>' +
