@@ -45,6 +45,7 @@ class Auth extends CI_Controller {
 			// $get_Validation = $this->LoginMod->Validate_Login($userid,$this->encryption->encrypt($pwd));
 			if($pass_valid == $pwd){
 				$sess_data['userid']=$userid;
+				$sess_data['NamaUser'] = $Validate_username->row()->nama;
 				$this->session->set_userdata($sess_data);
 				$data['success'] = true;
 			}
@@ -63,5 +64,46 @@ class Auth extends CI_Controller {
 		delete_cookie('ci_session');
         $this->session->sess_destroy();
         redirect('Welcome');
+	}
+	public function RegisterUser()
+	{
+		$data = array('success' => false ,'message'=>array(),'id' =>'');
+
+		// parameter kode:kode,nama:nama,alamat:alamat,tlp:tlp,mail:mail,pj:pj,tgl:tgl,ket:ket}
+
+		$uname = $this->input->post('uname');
+		$nama = $this->input->post('nama');
+		$mail = $this->input->post('mail');
+		$pass = $this->input->post('pass');
+		$role = $this->input->post('role');
+		$md_pass = $this->encryption->encrypt($pass);
+
+		// 
+		$insert = array(
+			'username' 	=> $uname,
+			'nama'		=> $nama,
+			'email'		=> $mail,
+			'password'	=> $md_pass,
+		);
+
+		$call = $this->ModelsExecuteMaster->ExecInsert($insert,'users');
+
+		if ($call) {
+			$xuser = $this->ModelsExecuteMaster->FindData(array('username'=>$uname),'users');
+			if ($xuser->num_rows() > 0) {
+				$insert = array(
+					'userid' 	=> $xuser->row()->id,
+					'roleid'	=> $role,
+				);
+				$call_x = $this->ModelsExecuteMaster->ExecInsert($insert,'userrole');
+				if ($call_x) {
+					$data['success'] = true;
+				}
+			}
+		}
+		else{
+			$data['message'] = 'Data Gagal di input';
+		}
+		echo json_encode($data);
 	}
 }

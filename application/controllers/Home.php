@@ -24,6 +24,7 @@ class home extends CI_Controller {
 		$this->load->model('ModelsExecuteMaster');
 		$this->load->model('GlobalVar');
 		$this->load->model('Apps_mod');
+		$this->load->model('LoginMod');
 	}
 	public function index()
 	{
@@ -60,5 +61,9 @@ class home extends CI_Controller {
 	public function vendor()
 	{
 		$this->load->view('Vendor');
+	}
+	public function user()
+	{
+		$this->load->view('users');
 	}
 }

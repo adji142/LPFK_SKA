@@ -11,7 +11,7 @@
  Target Server Version : 50552
  File Encoding         : 65001
 
- Date: 23/09/2019 20:04:47
+ Date: 29/09/2019 08:23:22
 */
 
 SET NAMES utf8mb4;
@@ -124,7 +124,7 @@ CREATE TABLE `pegawai`  (
   `createdon` datetime NULL DEFAULT NULL,
   `createdby` int(255) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of pegawai
@@ -240,7 +240,7 @@ CREATE TABLE `permission`  (
   `menusubmenu` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `multilevel` bit(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of permission
@@ -254,6 +254,7 @@ INSERT INTO `permission` VALUES (6, 'Daftar FASYANKES', 'home/fasyankes', NULL, 
 INSERT INTO `permission` VALUES (7, 'Pemeliharaan', 'home/pelihara', NULL, '2', b'1');
 INSERT INTO `permission` VALUES (8, 'Daftar Pegawai', 'home/pegawai', NULL, '5', b'1');
 INSERT INTO `permission` VALUES (9, 'Daftar Vendor', 'home/vendor', NULL, '5', b'1');
+INSERT INTO `permission` VALUES (10, 'User Managerment', 'home/user', 'icon-th-list', '0', b'0');
 
 -- ----------------------------
 -- Table structure for permissionrole
@@ -276,6 +277,12 @@ INSERT INTO `permissionrole` VALUES (1, 6);
 INSERT INTO `permissionrole` VALUES (1, 7);
 INSERT INTO `permissionrole` VALUES (1, 8);
 INSERT INTO `permissionrole` VALUES (1, 9);
+INSERT INTO `permissionrole` VALUES (1, 10);
+INSERT INTO `permissionrole` VALUES (2, 1);
+INSERT INTO `permissionrole` VALUES (2, 2);
+INSERT INTO `permissionrole` VALUES (2, 3);
+INSERT INTO `permissionrole` VALUES (2, 4);
+INSERT INTO `permissionrole` VALUES (2, 5);
 
 -- ----------------------------
 -- Table structure for roles
@@ -290,8 +297,8 @@ CREATE TABLE `roles`  (
 -- ----------------------------
 -- Records of roles
 -- ----------------------------
-INSERT INTO `roles` VALUES (1, 'Manager');
-INSERT INTO `roles` VALUES (2, 'Admin');
+INSERT INTO `roles` VALUES (1, 'Admin');
+INSERT INTO `roles` VALUES (2, 'Petugas');
 INSERT INTO `roles` VALUES (3, 'User');
 
 -- ----------------------------
@@ -310,6 +317,7 @@ CREATE TABLE `userrole`  (
 INSERT INTO `userrole` VALUES (14, 1);
 INSERT INTO `userrole` VALUES (30, 3);
 INSERT INTO `userrole` VALUES (37, 1);
+INSERT INTO `userrole` VALUES (42, 2);
 
 -- ----------------------------
 -- Table structure for users
@@ -330,7 +338,7 @@ CREATE TABLE `users`  (
   `email` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `phone` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of users
@@ -338,5 +346,6 @@ CREATE TABLE `users`  (
 INSERT INTO `users` VALUES (14, 'admin', 'admin', 'a9bdd47d7321d4089b3b00561c9c621848bd6f6e2f745a53d54913d613789c23945b66de6ded1eb336a7d526f9349a9d964d6f6c3a40e2ac90b4b16c0121f7895Xg53McbkyQ/NmW60Sf4cu3wJsi/8cyZXxeXV7g6b04=', 'mnl', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `users` VALUES (30, 'megalodon', NULL, 'dd42771218e347c25ff78769d7980732fee6e2f20123e7c350464c66c88fc40d387c41c870a5c3d7e3c6b80a47be40be0b661f90862f9e3ffbac08652648f7f5DwU+Oa8TIr/dx0zrpBL9CJG0HhoULbg4PgRmoBZV71Q=', 'system', '2019-06-03 14:43:19', NULL, '9dce6c8a6b82974047fef438e04035f5', b'1', '::1', 'Chrome 74.0.3729.169', 'adjia7x@gmail.com', '81325058258');
 INSERT INTO `users` VALUES (37, 'adji142', NULL, 'fb6206fc17efcb92acfacb7c0776724c2fcbc5beeb8a102204d66e34da2493b0590d730b8bf4317b3ad794c1387134f5c92917237657bce6ea0ee3699f2d1dc1r5FAhDCXlNPizLsILnT+4huYlDtxN/UmRNqIrkbLwXc=', 'system', '2019-07-24 18:07:16', NULL, 'b22510fc8e1edd9a4f257d422d35f7a5', b'1', '::1', 'Chrome 75.0.3770.142', 'prasetyoajiw@gmail.com', '81325058258');
+INSERT INTO `users` VALUES (42, 'user01', 'test user', '7a09601548670e31f924e907b4d21e30046a2e6953e8b1e1f88eddd264909904cb978b6fe2462a0e81479e55a76eed9b24d5871a2d59e0bad93d4db8cf8e8493/zINiN4x7EASjauao0QasqW5EjveFBw6NwOIOMu4KUM=', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'prasetyoajiw@gmail.com', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

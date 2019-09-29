@@ -1,5 +1,6 @@
 <?php
   $user_id = $this->session->userdata('userid');
+  $NamaUser = $this->session->userdata('NamaUser');
   if($user_id == ''){
     echo "<script>location.replace('".base_url()."home');</script>";
   }
@@ -49,7 +50,7 @@
 
 <!--Header-part-->
 <div id="header">
-  <h1><a href="dashboard.html">Matrix Admin</a></h1>
+  <img src="<?php echo base_url();?>Assets/img/logo_2.png" width = "12%">
 </div>
 <!--close-Header-part--> 
 
@@ -58,6 +59,8 @@
 <div id="user-nav" class="navbar navbar-inverse">
   <ul class="nav">
     <li class=""><a title="" href="<?php echo base_url(); ?>auth/logout"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
+    <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text"><?php echo $NamaUser; ?></span></a>
+    </li>
   </ul>
 </div>
 <!--close-top-Header-menu-->
