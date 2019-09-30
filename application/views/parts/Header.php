@@ -4,6 +4,7 @@
   if($user_id == ''){
     echo "<script>location.replace('".base_url()."home');</script>";
   }
+//test
 ?>
 <!DOCTYPE html>
 <html lang="en">
