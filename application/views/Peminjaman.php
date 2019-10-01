@@ -56,7 +56,16 @@
 				            <div class="control-group">
 				              <label class="control-label">Nama Peminjam :</label>
 				              <div class="controls">
-				                <input type="text" class="span6" placeholder="Nama Peminjam" id="nama" name="nama"/>
+				                <!-- <input type="text" class="span6" placeholder="Nama Peminjam" id="nama" name="nama"/> -->
+				                <select id="nama" name="nama" class="span6">
+				                  <option value="">--- Select Data ---</option>
+				                  <?php
+				                  	$data_fas = $this->ModelsExecuteMaster->FindData(array('tglresign'=>'0000-00-00'),'pegawai');
+				                  	foreach ($data_fas->result() as $key) {
+				                  		echo "<option value = '".$key->nama."'>".$key->nama."</option>";
+				                  	}
+				                  ?>
+				                </select>
 				              </div>
 				            </div>
 				            <!-- <div class="control-group">
@@ -70,13 +79,9 @@
 				                <!-- <input type="text" class="span3" placeholder="Nomer Transaksi" id="notrans" name="notrans" readonly="" /> -->
 				                <div class="control-group">
 					              <div class="controls">
-					                <select id="petugas" name="petugas" class="span6">
-					                  <option value="">--- Select Data ---</option>
+					                <select id="petugas" name="petugas" class="span6" disabled="">
 					                  <?php
-					                  	$data_fas = $this->ModelsExecuteMaster->FindData(array('tglresign'=>'0000-00-00'),'pegawai');
-					                  	foreach ($data_fas->result() as $key) {
-					                  		echo "<option value = '".$key->nama."'>".$key->nama."</option>";
-					                  	}
+					                  	echo "<option value = '".$NamaUser."'>".$NamaUser."</option>";
 					                  ?>
 					                </select>
 					              </div>
@@ -172,7 +177,7 @@
         <table class="table table-bordered data-table">
         	<thead>
               <tr>
-              	<th>Aksi</th>
+              	<th>SN</th>
                 <th>Kode Analizer</th>
                 <th>Nama Analizer</th>
                 <th>Jumlah Pinjam</th>
@@ -332,11 +337,13 @@
 			return_IDData = 1;
 			rowid = $(this).find("#rowid").text();
 			kodealat = $(this).find("#kodealat").text();
+			sn = $(this).find("#sn").text();
 			namaalat = $(this).find("#namaalat").text();
 			stock = $(this).find("#stk").text();
 
 			items_data.push({
-	                ClmID : rowid,
+	                ClmID  : rowid,
+	                sn 	   : sn,
 	                Prefix : kodealat,
 	                namamsn: namaalat,
 	                onhand : stock,
@@ -410,7 +417,7 @@
 		        var j = 1;
 		        for (i = 0; i < response.data.length; i++) {
 		          html += '<tr>' +
-		                  '<td>' + j+'</td>' +
+		                  '<td>' + response.data[i].no_seri+'</td>' +
 		                  '<td>' + response.data[i].kodemesin + '</td>' +
 		                  '<td>' + response.data[i].nama_alat + '</td>' +
 		                  '<td>' + response.data[i].jumlah + '</td>' +
@@ -458,6 +465,12 @@
 	            {
 	                dataField: "ClmID",
 	                caption: "Columns ID",
+	                allowEditing:false,
+	                visible : false
+	            },
+	            {
+	                dataField: "sn",
+	                caption: "Serial Number",
 	                allowEditing:false
 	            },
 	            {
@@ -550,6 +563,7 @@
 					        		$.each(response.data,function (k,v) {
 					        			//ClmID
 					        			grid.cellValue(index, "ClmID", v.id);
+					        			grid.cellValue(index, "sn", v.no_seri);
 							   			grid.cellValue(index, "Prefix", v.kode_alat);
 										grid.cellValue(index, "namamsn", v.nama_alat);
 										grid.cellValue(index, "onhand", v.stock);
@@ -563,7 +577,7 @@
 							        for (i = 0; i < response.data.length; i++) {
 							          html += '<tr>' +
 							                  '<td id = "rowid">' + response.data[i].id+'</td>' +
-							                  '<td id = "kodealat">' + response.data[i].no_seri + '</td>' +
+							                  '<td id = "sn">' + response.data[i].no_seri + '</td>' +
 							                  '<td id = "kodealat">' + response.data[i].kode_alat + '</td>' +
 							                  '<td id = "namaalat">' + response.data[i].nama_alat + '</td>' +
 							                  '<td id = "stk">' + response.data[i].stock + '</td>' +

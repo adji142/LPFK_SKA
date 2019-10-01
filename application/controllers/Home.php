@@ -66,4 +66,8 @@ class home extends CI_Controller {
 	{
 		$this->load->view('users');
 	}
+	public function change()
+	{
+		$this->load->view('changepass');
+	}
 }

@@ -79,7 +79,7 @@
 			              							<center>
 				              							<button class = 'btn btn-mini btn-info tip-top detail' data-original-title='Lihat Detail' id = '".$key->trx."'  data-toggle='modal'><span class = 'icon icon-eye-open'></span>
 				              							</button>
-				              							<button class = 'btn btn-mini btn-danger tip-top print' data-original-title='Cetak Bukti' id = '".$key->notransaksi."'  data-toggle='modal' data-target='#basicExampleModal'><span class = 'icon icon-print'></span>
+				              							<button class = 'btn btn-mini btn-danger tip-top print' data-original-title='Cetak Bukti' id = '".$key->notransaksi."'><span class = 'icon icon-print'></span>
 				              							</button>
 			              							</center>
 			              						</td>
@@ -427,7 +427,8 @@
 	        	{
 	                dataField: "kodemesin",
 	                caption: "Columns ID",
-	                allowEditing:false
+	                allowEditing:false,
+	                visible:false
 	            },
 	            {
 	                dataField: "kode_alat",
@@ -575,6 +576,7 @@
 	    });
 	}
 	function validation_pengembalian(notransaksi,notransaksi_kembali) {
+		alert(notransaksi);
 		$.ajax({
 	      type    :'post',
 	      url     : '<?=base_url()?>Transaction/ValidateTransaction',

@@ -61,13 +61,16 @@
   <ul class="nav">
     <li class=""><a title="" href="<?php echo base_url(); ?>auth/logout"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
     <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text"><?php echo $NamaUser; ?></span></a>
+      <ul class="dropdown-menu">
+        <li><a class="sInbox" title="" href="<?php echo base_url(); ?>/home/change"><i class="icon-key"></i> Change Password</a></li>
+      </ul>
     </li>
   </ul>
 </div>
 <!--close-top-Header-menu-->
 <!--start-top-serch-->
-<div id="search">
+<!-- <div id="search">
   <input type="text" placeholder="Search here..."/>
   <button type="submit" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>
-</div>
+</div> -->
 <!--close-top-serch-->

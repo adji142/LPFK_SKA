@@ -1,8 +1,8 @@
 <?php
 //buka koneksi ke engine MySQL
-    // $Open = mysqli_connect("localhost","root","lagis3nt0s4","xlpfk_solo");
-    $Open = mysqli_connect("localhost","aistrick_root","lagis3nt0s4","aistrick_xlpfk_solo");
-    //mysqli_connect("localhost","root","hsp123","dealsys");
+    $Open = mysqli_connect("localhost","root","hsp123","xlpfk_solo");
+    // $Open = mysqli_connect("localhost","aistrick_root","lagis3nt0s4","aistrick_xlpfk_solo");
+    // mysqli_connect("localhost","root","hsp123","xlpfk_solo");
     // $Open = mysqli_connect("localhost","root","lagis3nt0s4","dealsys");
     if (!$Open){
         die ("Koneksi ke Engine MySQL Gagal !<br>");
@@ -80,7 +80,7 @@
     <div class="row">
       <div class="col-xs-12">
         <h2 class="page-header">
-          <i class="fa fa-globe"></i> BUKTI PENGEMBALIAN ALAT KESEHATAN - NAMA INSTANSI.
+          <i><img src="../Assets/img/logo_2.png" width="10%"></i> BUKTI PENGEMBALIAN ALAT KESEHATAN - NAMA INSTANSI.
           <small class="pull-right"><?php echo date('d-M-Y'); ?></small>
         </h2>
       </div>

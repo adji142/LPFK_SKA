@@ -106,4 +106,20 @@ class Auth extends CI_Controller {
 		}
 		echo json_encode($data);
 	}
+	public function changepass()
+	{
+		$data = array('success' => false ,'message'=>array(),'id' =>'');
+
+		$uname = $this->input->post('user');
+		$newpass = $this->encryption->encrypt($this->input->post('pass'));
+		$id = $this->input->post('id');
+		$call =$this->ModelsExecuteMaster->ExecUpdate(array('password'=>$newpass),array('id'=>$id),'users');
+		if ($call) {
+			$data['success'] = true;
+		}
+		else{
+			$data['message'] = 'Gagal Update password';
+		}
+		echo json_encode($data);
+	}
 }

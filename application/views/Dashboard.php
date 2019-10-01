@@ -31,15 +31,18 @@
 <!--End-breadcrumbs-->
 
     <div class="row-fluid">
-      <div id="background">
+      <!-- <div id="background">
         <br><br><br><br><br><br><br><br><br><br><br><br>
         <center><p id="bg-text">Demo Mode <br><br><br> <a id="bg-text" href="aistrick.com">aistrick.com</a></p></center>
-  </div>
+      </div> -->
+      <center>
+        <br><br><br><br>
+        <img src="<?php echo base_url()?>/Assets/img/dash.jpeg">
+      </center>
     </div>
   </div>
 </div>
 
-<!--end-main-container-part-->
 
 <?php
     require_once(APPPATH."views/parts/footer.php");

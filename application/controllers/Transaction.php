@@ -299,13 +299,13 @@ class transaction extends CI_Controller {
 		$status = 0;
 		foreach ($list as $key) {
 			if ($key->jumlah == 0) {
-				$status = 1;
+				$status += 1;
 			}
 			else{
-				$status = 0;
+				$status += 0;
 			}
 		}
-		if ($status == 1) {
+		if ($status >= 1) {
 			$data_update = array('statustransaksi' => 1);
 			$update = $this->ModelsExecuteMaster->ExecUpdate($data_update,array('notransaksi'=>$notr),'peminjaman');
 

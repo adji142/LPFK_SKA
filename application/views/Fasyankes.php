@@ -121,7 +121,7 @@
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label">Tanggal Masuk :</label>
+              <label class="control-label">Tanggal Jadwal Kalibrasi :</label>
               <div class="controls">
                 <input type="date" class="span3" placeholder="Tanggal Masuk" id="tgl" name="tgl" required=""/>
               </div>
