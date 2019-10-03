@@ -3,6 +3,19 @@
     require_once(APPPATH."views/parts/sidebar.php");
     $active = 'daftarmesin';
 ?>
+<style type="text/css">
+	.preview{
+	   width: 100px;
+	   height: 100px;
+	   border: 1px solid black;
+	   margin: 0 auto;
+	   background: white;
+	}
+
+	.preview img{
+	   display: none;
+	}
+</style>
 <!--main-container-part-->
 <div id="content">
 <!--breadcrumbs-->
@@ -29,6 +42,7 @@
 		        	<table class="table table-bordered data-table">
 		        		<thead>
 			                <tr>
+			                  <th>Gambar</th>
 			                  <th>NIK</th>
 			                  <th>Nama Pegawai</th>
 			                  <th>Jenis Kelamin</th>
@@ -48,6 +62,7 @@
 		              			foreach ($data_alat->result() as $key) {
 		              				echo "
 		              					<tr>
+		              						<td width='10%'><center><img src = '".$key->image."' width='50%'></center></td>
 		              						<td>".$key->nik."</td>
 		              						<td>".$key->nama."</td>
 		              						<td>".$key->jeniskelamin."</td>
@@ -84,7 +99,7 @@
 	        </button>
 	    </div>
 	    <div class="modal-body">
-	    	<form class="form-horizontal" enctype='application/json' id="post_pegawai">
+	    	<form class="form-horizontal" enctype='multipart/form-data' id="post_pegawai">
 	    		<div class="control-group">
 	              <label class="control-label">NIK :</label>
 	              <div class="controls">
@@ -143,6 +158,18 @@
 	                <input type="date" class="span3" id="resigndate" name="resigndate"/>
 	              </div>
 	            </div>
+		        <div class="control-group">
+		          <label class="control-label">File upload input</label>
+		          <div class="controls">
+		            <input type="hidden" class="span5" placeholder="Group Name" id="idbanner" name="idbanner"/>
+		            <input type="file" id="bannerimage" name="bannerimage" />
+		            <img src="" id="profile-img-tag" width="100" />
+		          </div>
+		        </div>
+		        <textarea id="image" name="image" style="display: none;"></textarea>
+		        <!-- <div class="control-group">
+			      <img src="" id="profile-img-tag" width="100" />
+			    </div> -->
 	            <button class="btn btn-primary" id="btn_Save_maintain">Save</button>
 	    	</form>
 	    </div>
@@ -199,102 +226,6 @@
 	    	$('#title_modal').empty();
 	    	$('#title_modal').append('Tambah Data Baru');
 	    });
-	  //   $('#Save_Btn').click(function () {
-	  //   	// parapeter form
-	  //   	var kdalat = $('#kdalat').val();
-	  //   	var nmalat = $('#nmalat').val();
-	  //   	var merk = $('#merk').val();
-	  //   	var model = $('#model').val();
-	  //   	var sn = $('#sn').val();
-	  //   	var tgl = $('#tgl').val();
-	  //   	var ket = $('#ket').val();
-	  //   	var jml = $('#jml').val();
-
-	  //   	$('#Save_Btn').text('Tunggu Sebentar');
-			// $('#Save_Btn').attr('disabled',true);
-	  //   	// validasi form
-	  //   	if (kdalat == '' || nmalat == '' || merk == '' || model == '' || sn == '' || tgl == '' || jml == 0) {
-	  //   		$('#basicExampleModal').modal('toggle');
-	  //   		Swal.fire({
-   //                type: 'error',
-   //                title: 'Oops...',
-   //                text: 'Field Tidak Boleh Kosong!',
-   //                // footer: '<a href>Why do I have this issue?</a>'
-   //              }).then((result)=>{
-   //                  $('#basicExampleModal').modal('toggle');
-   //                  $('#Save_Btn').text('Save changes');
-			// 		$('#Save_Btn').attr('disabled',false);
-   //              });
-	  //   	}
-	  //   	else{
-	  //   		// proses input ke database
-	  //   		if (form_mode == 'add') {
-	  //   			// add mode
-	  //   			$.ajax({
-			//         type    :'post',
-			//         url     : '<?=base_url()?>Apps/InsertMesinData',
-			//         data    : {kdalat:kdalat,nmalat:nmalat,merk:merk,model:model,sn:sn,tgl:tgl,ket:ket,jml:jml},
-			//         dataType: 'json',
-			//         success : function (response) {
-			//           if(response.success == true){
-			//             $('#basicExampleModal').modal('toggle');
-			//             Swal.fire({
-			//               type: 'success',
-			//               title: 'Horay..',
-			//               text: 'Data Berhasil disimpan!',
-			//               // footer: '<a href>Why do I have this issue?</a>'
-			//             }).then((result)=>{
-			//               location.reload();
-			//             });
-			//           }
-			//           else{
-			//             $('#basicExampleModal').modal('toggle');
-			//             Swal.fire({
-			//               type: 'error',
-			//               title: 'Woops...',
-			//               text: response.message,
-			//               // footer: '<a href>Why do I have this issue?</a>'
-			//             });
-			//             $('#basicExampleModal').modal('show');
-			//           }
-			//         }
-			//       });
-	  //   		}
-	  //   		else{
-	  //   			// edit mode
-	  //   			$.ajax({
-			//         type    :'post',
-			//         url     : '<?=base_url()?>Apps/EditMesinData',
-			//         data    : {kdalat:kdalat,nmalat:nmalat,merk:merk,model:model,sn:sn,tgl:tgl,ket:ket,jml:jml},
-			//         dataType: 'json',
-			//         success : function (response) {
-			//           if(response.success == true){
-			//             $('#basicExampleModal').modal('toggle');
-			//             Swal.fire({
-			//               type: 'success',
-			//               title: 'Horay..',
-			//               text: 'Data Berhasil disimpan!',
-			//               // footer: '<a href>Why do I have this issue?</a>'
-			//             }).then((result)=>{
-			//               location.reload();
-			//             });
-			//           }
-			//           else{
-			//             $('#basicExampleModal').modal('toggle');
-			//             Swal.fire({
-			//               type: 'error',
-			//               title: 'Woops...',
-			//               text: response.message,
-			//               // footer: '<a href>Why do I have this issue?</a>'
-			//             });
-			//             $('#basicExampleModal').modal('show');
-			//           }
-			//         }
-			//       });
-	  //   		}
-	  //   	}
-	  //   });
-
 	    $('.edit').click(function () {
 	    	var id = $(this).attr("id");
 	    	form_mode = 'edit';
@@ -315,6 +246,7 @@
 					$('#resigndate').val(v.tglresign);
 					$('#jk').val(v.jeniskelamin).change();
 					$('#jabatan').val(v.jabatan);
+					$("#profile-img-tag").attr("src", v.image);
 		          });
 		          $('#nik').attr('readonly',true);
 		          $('#title_modal').empty();
@@ -334,12 +266,16 @@
 		      }
 		    });
 	    });
-
+	    $("#bannerimage").change(function(){
+	        readURL(this);
+	        encodeImagetoBase64(this);
+	    });
 	    $('#post_pegawai').submit(function (e) {
 	    	$('#btn_Save_maintain').text('Tunggu Sebentar.....');
 		    $('#btn_Save_maintain').attr('disabled',true);
 		    e.preventDefault();
 			var me = $(this);
+
 		    if (form_mode == 'add') {    
 			    $.ajax({
 			        type    :'post',
@@ -419,4 +355,31 @@
 		$('#joindate').val('');
 		$('#resigndate').val('');
 	}
+	function readURL(input) {
+	    if (input.files && input.files[0]) {
+	        var reader = new FileReader();
+	          
+	        reader.onload = function (e) {
+	            $('#profile-img-tag').attr('src', e.target.result);
+	        }
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
+	function encodeImagetoBase64(element) {
+
+	    var file = element.files[0];
+
+	    var reader = new FileReader();
+
+	    reader.onloadend = function() {
+
+	      // $(".link").attr("href",reader.result);
+
+	      // $(".link").text(reader.result);
+	      $('#image').val(reader.result);
+	    }
+
+	    reader.readAsDataURL(file);
+
+	  }
 </script>

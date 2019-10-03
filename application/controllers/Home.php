@@ -70,4 +70,12 @@ class home extends CI_Controller {
 	{
 		$this->load->view('changepass');
 	}
+	public function lappengeluaran()
+	{
+		$this->load->view('lappengeluaran');
+	}
+	public function lappengembalian()
+	{
+		$this->load->view('lappengembalian');
+	}
 }

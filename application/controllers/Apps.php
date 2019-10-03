@@ -460,7 +460,7 @@ class Apps extends CI_Controller {
 		$jk = $this->input->post('jk');
 		$jabatan = $this->input->post('jabatan');
 		$user_id = $this->session->userdata('userid');
-
+		$image = $this->input->post('image');
 		// 
 		$insert = array(
 			'nik' 		=> $nik,
@@ -474,6 +474,7 @@ class Apps extends CI_Controller {
 			'createdby'	=> $user_id,
 			'jeniskelamin' => $jk,
 			'jabatan' => $jabatan,
+			'image'		=> $image,
 		);
 
 		$call = $this->ModelsExecuteMaster->ExecInsert($insert,'pegawai');
