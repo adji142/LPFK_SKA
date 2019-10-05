@@ -246,6 +246,7 @@
 					$('#resigndate').val(v.tglresign);
 					$('#jk').val(v.jeniskelamin).change();
 					$('#jabatan').val(v.jabatan);
+					$('#image').val(v.image);
 					$("#profile-img-tag").attr("src", v.image);
 		          });
 		          $('#nik').attr('readonly',true);
@@ -366,7 +367,7 @@
 	    }
 	}
 	function encodeImagetoBase64(element) {
-
+		$('#image').val('');
 	    var file = element.files[0];
 
 	    var reader = new FileReader();

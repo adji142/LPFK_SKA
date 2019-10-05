@@ -521,6 +521,7 @@ class Apps extends CI_Controller {
 		$resigndate = $this->input->post('resigndate');
 		$jk = $this->input->post('jk');
 		$jabatan = $this->input->post('jabatan');
+		$image = $this->input->post('image');
 		// 
 		$Update = array(
 			'nama'		=> $nama,
@@ -531,6 +532,7 @@ class Apps extends CI_Controller {
 			'tglresign'	=> $resigndate,
 			'jeniskelamin' => $jk,
 			'jabatan' => $jabatan,
+			'image'	=> $image,
 		);
 
 		$where = array(
