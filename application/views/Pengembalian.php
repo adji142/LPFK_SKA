@@ -219,6 +219,7 @@
               	<th>Aksi</th>
                 <th>Kode Analizer</th>
                 <th>Nama Analizer</th>
+                <th>Serial Number</th>
                 <th>Jumlah Pinjam</th>
                 <th>Jumlah Kembali</th>
               </tr>
@@ -385,6 +386,7 @@
 			                  '<td>' + j+'</td>' +
 			                  '<td>' + response.data[i].kode_alat + '</td>' +
 			                  '<td>' + response.data[i].nama_alat + '</td>' +
+			                  '<td>' + response.data[i].no_seri + '</td>' +
 			                  '<td>' + response.data[i].jumlah + '</td>' +
 			                  '<td>' + response.data[i].jumlahkembali + '</td>' +
 			                  '<tr>';

@@ -71,7 +71,7 @@ class Apps_mod extends CI_Model
     public function GetPeminjamanDetailList_fordetail($headerid)
     {
         $sql = "
-            SELECT a.*,COALESCE(c.jumlahkembali,0) jumlahkembali,b.nama_alat,b.kode_alat FROM peminjamandetail a
+            SELECT a.*,COALESCE(c.jumlahkembali,0) jumlahkembali,b.nama_alat,b.kode_alat,b.no_seri FROM peminjamandetail a
             LEFT JOIN masteralat b on a.kodemesin = b.id
             LEFT JOIN(
                     SELECT a.nopinjam,b.kodealat,SUM(b.jumlahkembali) jumlahkembali FROM pengembalian a
